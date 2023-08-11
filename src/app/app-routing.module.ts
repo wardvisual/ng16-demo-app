@@ -5,14 +5,17 @@ import { HomeComponent, AuthComponent } from '@ng16-demoapp/views';
 
 export const routes: Routes = [
   {
+    path: 'home',
+    pathMatch: 'full',
+    redirectTo: '',
+  },
+  {
     path: '',
-    loadComponent: () =>
-      import('@ng16-demoapp/views').then((m) => m.HomeComponent),
+    component: HomeComponent,
   },
   {
     path: 'auth',
-    loadComponent: () =>
-      import('@ng16-demoapp/views').then((m) => m.AuthComponent),
+    component: AuthComponent,
   },
 ];
 
