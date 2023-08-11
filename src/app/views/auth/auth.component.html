@@ -1,19 +1,21 @@
 <section class="auth__view">
   <div class="auth__view--left">
-    <form>
+    <form [formGroup]="signupForm" (ngSubmit)="onSignup($event)">
       <header>
         <h2>Welcome abroad!</h2>
         <p>Please tell us a litte bit about yourself.</p>
       </header>
 
       <section>
-        <div>
+        <div class="col-md">
           <app-input
             type="text"
             name="firstName"
             label="First Name"
             [required]="true"
-            [formControl]="$any(form.get('firstName'))"
+            [formGroup]="signupForm"
+            formControlName="firstName"
+            ngDefaultControl
           ></app-input>
 
           <app-input
@@ -21,7 +23,9 @@
             name="lastName"
             label="Last Name"
             [required]="true"
-            [formControl]="$any(form.get('lastName'))"
+            [formGroup]="signupForm"
+            formControlName="lastName"
+            ngDefaultControl
           ></app-input>
         </div>
 
@@ -30,7 +34,9 @@
           name="username"
           label="Username"
           [required]="true"
-          [formControl]="$any(form.get('username'))"
+          [formGroup]="signupForm"
+          formControlName="username"
+          ngDefaultControl
         ></app-input>
 
         <app-input
@@ -38,7 +44,9 @@
           name="emailAddress"
           label="Email Address"
           [required]="true"
-          [formControl]="$any(form.get('emailAddress'))"
+          [formGroup]="signupForm"
+          formControlName="emailAddress"
+          ngDefaultControl
         ></app-input>
 
         <app-input
@@ -46,16 +54,13 @@
           name="password"
           label="Password"
           [required]="true"
-          [formControl]="$any(form.get('password'))"
+          [formGroup]="signupForm"
+          formControlName="password"
+          ngDefaultControl
         ></app-input>
       </section>
       <footer>
-        <app-button
-          type="submit"
-          variant="primary"
-          name="Sign Up"
-          (buttonClick)="onSignup($event)"
-        ></app-button>
+        <app-button type="submit" variant="primary" name="Sign Up"></app-button>
       </footer>
     </form>
   </div>
