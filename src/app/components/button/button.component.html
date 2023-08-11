@@ -1,1 +1,8 @@
-<p>button works!</p>
+<button
+  [type]="type"
+  [class]="variant"
+  [disabled]="isDisabled"
+  (click)="onClick()"
+>
+  {{ name }}
+</button>
