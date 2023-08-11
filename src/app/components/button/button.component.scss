@@ -1,0 +1,21 @@
+button {
+  padding: 0.8em 1em 0.8em 1em;
+  border-radius: var(--radius-5);
+  background-color: var(--color-brand-900);
+  border-radius: none;
+  width: 100%;
+  border: none;
+  font-weight: var(--font-weight-500);
+  color: var(--color-brand-50);
+  cursor: pointer;
+
+  &:hover {
+    transition: background-color 0.3s;
+    background-color: var(--color-brand-700);
+  }
+
+  &:active {
+    transform: scale(0.99);
+    outline: invert;
+  }
+}
