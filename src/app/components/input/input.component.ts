@@ -1,6 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormControlName, FormGroup } from '@angular/forms';
+import { FormGroup } from '@angular/forms';
 import { ReactiveFormsModule } from '@angular/forms';
 
 @Component({
