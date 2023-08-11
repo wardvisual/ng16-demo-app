@@ -1,8 +1,9 @@
-<section>
-  <div>
+<section class="auth__view">
+  <div class="auth__view--left">
     <form>
       <header>
-        <h1>Welcome back!</h1>
+        <h2>Welcome abroad!</h2>
+        <p>Please tell us a litte bit about yourself.</p>
       </header>
 
       <section>
@@ -27,7 +28,7 @@
         <app-input
           type="text"
           name="username"
-          label="username"
+          label="Username"
           [required]="true"
           [formControl]="$any(form.get('username'))"
         ></app-input>
@@ -58,5 +59,13 @@
       </footer>
     </form>
   </div>
-  <div></div>
+  <div class="auth__view--right">
+    <div>
+      <img src="assets/images/auth-art.svg" alt="art" />
+      <div>
+        <h4><strong>Astronaut</strong>aking App</h4>
+        <p>Effortless Note-Taking at Your Fingertips</p>
+      </div>
+    </div>
+  </div>
 </section>

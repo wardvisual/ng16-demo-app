@@ -1,18 +1,37 @@
-section {
+.auth__view {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
 
   height: 100vh;
 
-  > div:first-child {
-    height: inherit;
+  &--left {
+    display: grid;
+    place-items: center;
+
+    form {
+      min-width: 30em;
+      padding: 1em;
+
+      display: grid;
+      grid-gap: 1em;
+    }
   }
 
-  > div:last-child {
-    height: inherit;
-    background: rgb(57, 218, 105);
-  }
+  &--right {
+    background: var(--color-brand-900);
 
-  form {
+    display: grid;
+    place-items: center;
+
+    > div {
+      display: grid;
+      place-items: center;
+      grid-gap: 2em;
+
+      text-align: center;
+      * {
+        color: var(--color-brand-50);
+      }
+    }
   }
 }
