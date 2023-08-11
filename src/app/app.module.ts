@@ -6,10 +6,17 @@ import { AppRoutingModule } from './app-routing.module';
 
 import { HomeComponent, AuthComponent } from '@ng16-demoapp/views';
 import { ButtonComponent, InputComponent } from '@ng16-demoapp/components';
+import { ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [AppComponent, HomeComponent, AuthComponent],
-  imports: [BrowserModule, AppRoutingModule, InputComponent, ButtonComponent],
+  imports: [
+    BrowserModule,
+    AppRoutingModule,
+    InputComponent,
+    ReactiveFormsModule,
+    ButtonComponent,
+  ],
   providers: [],
   exports: [RouterModule],
   bootstrap: [AppComponent],
