@@ -1,20 +1,33 @@
-import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormControl, Validators } from '@angular/forms';
+import { Component } from '@angular/core';
 import { FormGroup } from '@angular/forms';
+import { FormControl, Validators } from '@angular/forms';
+import { NavigationEnd, Router } from '@angular/router';
+
+import { AuthService } from './auth.service';
 import { SignUp, SignIn } from './types/auth.types';
 
 @Component({
   selector: 'app-auth',
   templateUrl: './auth.component.html',
-  styleUrls: ['./auth.component.scss'],
 })
 export class AuthComponent {
   signupForm: FormGroup;
   signinForm: FormGroup;
+  currentRoute: string;
 
-  constructor() {
+  constructor(private router: Router, private authService: AuthService) {
+    this.router.events.subscribe((event) => {
+      if (event instanceof NavigationEnd) {
+        this.currentRoute = event.url;
+      }
+    });
+
     this.createSignupForm();
     this.createSigninForm();
+  }
+
+  openPage(url: string): void {
+    this.router.navigateByUrl(`/${url}`);
   }
 
   createSignupForm() {
