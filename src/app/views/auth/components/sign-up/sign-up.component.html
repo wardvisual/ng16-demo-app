@@ -1,0 +1,64 @@
+<form [formGroup]="signupForm" (ngSubmit)="onSignup($event)">
+  <header>
+    <h2>Welcome abroad!</h2>
+    <p>Please tell us a litte bit about yourself.</p>
+  </header>
+
+  <section>
+    <div class="col-md">
+      <app-input
+        type="text"
+        name="firstName"
+        label="First Name"
+        [required]="true"
+        [formGroup]="signupForm"
+        formControlName="firstName"
+        ngDefaultControl
+      ></app-input>
+
+      <app-input
+        type="text"
+        name="lastName"
+        label="Last Name"
+        [required]="true"
+        [formGroup]="signupForm"
+        formControlName="lastName"
+        ngDefaultControl
+      ></app-input>
+    </div>
+
+    <app-input
+      type="text"
+      name="username"
+      label="Username"
+      [required]="true"
+      [formGroup]="signupForm"
+      formControlName="username"
+      ngDefaultControl
+    ></app-input>
+
+    <app-input
+      type="email"
+      name="emailAddress"
+      label="Email Address"
+      [required]="true"
+      [formGroup]="signupForm"
+      formControlName="emailAddress"
+      ngDefaultControl
+    ></app-input>
+
+    <app-input
+      type="password"
+      name="password"
+      label="Password"
+      [required]="true"
+      [formGroup]="signupForm"
+      formControlName="password"
+      ngDefaultControl
+    ></app-input>
+  </section>
+  <footer>
+    <app-button type="submit" variant="primary" name="Register"></app-button>
+    <p>Already have an account? <a (click)="openPage('signin')">Login</a></p>
+  </footer>
+</form>
