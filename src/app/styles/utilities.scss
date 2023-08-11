@@ -1,3 +1,14 @@
-.col {
-  display: flex;
+@import "src/app/styles/mixins.scss";
+
+.col-md {
+  @include md {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1em;
+
+    > * {
+      width: 100%;
+    }
+  }
 }
