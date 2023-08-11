@@ -1,15 +1,15 @@
 import { NgModule } from '@angular/core';
-import { BrowserModule } from '@angular/platform-browser';
-
-import { AppRoutingModule } from './app-routing.module';
-import { AppComponent } from './app.component';
-import { HomeComponent } from './views/home/home.component';
-import { AuthComponent } from './views/auth/auth.component';
 import { RouterModule } from '@angular/router';
+import { BrowserModule } from '@angular/platform-browser';
+import { AppComponent } from './app.component';
+import { AppRoutingModule } from './app-routing.module';
+
+import { HomeComponent, AuthComponent } from '@ng16-demoapp/views';
+import { ButtonComponent, InputComponent } from '@ng16-demoapp/components';
 
 @NgModule({
   declarations: [AppComponent, HomeComponent, AuthComponent],
-  imports: [BrowserModule, AppRoutingModule],
+  imports: [BrowserModule, AppRoutingModule, InputComponent, ButtonComponent],
   providers: [],
   exports: [RouterModule],
   bootstrap: [AppComponent],
