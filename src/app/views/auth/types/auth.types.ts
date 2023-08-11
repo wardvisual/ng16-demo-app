@@ -7,3 +7,8 @@ export interface SignUp {
   emailAddress: FormControl;
   password: FormControl;
 }
+
+export interface SignIn {
+  username: FormControl;
+  password: FormControl;
+}
