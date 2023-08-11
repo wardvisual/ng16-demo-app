@@ -19,7 +19,7 @@ export class ButtonComponent implements OnInit {
 
   ngOnInit(): void {}
 
-  @Output() buttonClick: EventEmitter<any> = new EventEmitter();
+  @Output() buttonClick?: EventEmitter<any> = new EventEmitter();
   @Input() buttonName: string;
   @Input() type: string;
   @Input() variant: string;
