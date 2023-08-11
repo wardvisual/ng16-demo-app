@@ -1,5 +1,4 @@
 import { Component } from '@angular/core';
-import { Router } from '@angular/router';
 import { AuthComponent } from 'src/app/views/auth/auth.component';
 
 @Component({
