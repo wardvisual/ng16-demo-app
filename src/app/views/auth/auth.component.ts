@@ -1,22 +1,24 @@
 import { Component, OnInit } from '@angular/core';
-import { FormControl, Validators } from '@angular/forms';
+import { FormBuilder, FormControl, Validators } from '@angular/forms';
 import { FormGroup } from '@angular/forms';
-import { SignUp } from './types/auth.types';
+import { SignUp, SignIn } from './types/auth.types';
 
 @Component({
   selector: 'app-auth',
   templateUrl: './auth.component.html',
   styleUrls: ['./auth.component.scss'],
 })
-export class AuthComponent implements OnInit {
-  form: FormGroup;
+export class AuthComponent {
+  signupForm: FormGroup;
+  signinForm: FormGroup;
 
-  ngOnInit() {
+  constructor() {
     this.createSignupForm();
+    this.createSigninForm();
   }
 
   createSignupForm() {
-    this.form = new FormGroup<SignUp>({
+    this.signupForm = new FormGroup<SignUp>({
       firstName: new FormControl('', [
         Validators.required,
         Validators.minLength(3),
@@ -40,7 +42,26 @@ export class AuthComponent implements OnInit {
     });
   }
 
-  onSignup(form: FormGroup) {
-    console.log({ form });
+  createSigninForm() {
+    this.signinForm = new FormGroup<SignIn>({
+      username: new FormControl('', [
+        Validators.required,
+        Validators.minLength(6),
+      ]),
+      password: new FormControl('', [
+        Validators.required,
+        Validators.minLength(10),
+      ]),
+    });
+  }
+
+  onSignup(event: Event): void {
+    event.preventDefault();
+    console.log({ n: this.signupForm.value });
+  }
+
+  onSignin(event: Event): void {
+    event.preventDefault();
+    console.log({ n: this.signinForm.value });
   }
 }
