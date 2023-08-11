@@ -1,12 +1,12 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormControl } from '@angular/forms';
-import { ReactiveFormsModule, FormsModule } from '@angular/forms';
+import { FormControlName, FormGroup } from '@angular/forms';
+import { ReactiveFormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-input',
   standalone: true,
-  imports: [CommonModule, FormsModule, ReactiveFormsModule],
+  imports: [CommonModule, ReactiveFormsModule],
   templateUrl: './input.component.html',
   styleUrls: ['./input.component.scss'],
 })
@@ -17,13 +17,13 @@ export class InputComponent implements OnInit {
   @Input() value: string;
   @Input() required: boolean;
 
-  @Input() formControl: FormControl;
+  @Input() formControlName: string;
+  @Input() formGroup: FormGroup;
 
   ngOnInit() {}
 
   displayErrors() {
-    const { dirty, touched, errors } = this.formControl;
-    console.log({ dirty, touched, errors });
+    const { dirty, touched, errors } = this.formGroup;
     return dirty && touched && errors;
   }
 }
