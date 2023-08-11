@@ -8,6 +8,8 @@
   padding: 0;
   box-sizing: border-box;
   font-family: "Nunito", sans-serif;
+
+  font-size: 14px;
 }
 
 a {
@@ -49,4 +51,9 @@ h5 {
 
 h6 {
   font-size: clamp(16px, calc(0.4vw + 1rem), 20px);
+}
+
+span,
+strong {
+  font-size: inherit;
 }
