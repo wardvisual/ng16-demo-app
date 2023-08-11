@@ -1,31 +1,32 @@
 <!-- Textarea -->
-<div *ngIf="type === 'textarea'" class="input__field">
+<!-- <div *ngIf="type === 'textarea'" class="input__field">
   <label [for]="name">{{ label }}</label>
   <textarea
     [name]="name"
     [value]="value"
-    [formControl]="formControl"
+    [formControlName]="formControlName"
   ></textarea>
-</div>
+</div> -->
 
 <!-- Text | Password | Email -->
 <div
   *ngIf="type === 'text' || type === 'password' || type === 'email'"
   class="input__field"
+  [formGroup]="formGroup"
 >
   <label [for]="name">{{ label }}</label>
   <input
     [type]="type"
     [name]="name"
     [value]="value"
-    [formControl]="formControl"
+    formControlName="{{ formControlName }}"
   />
   <ng-container *ngIf="displayErrors()" class="input__field--error">
-    <p *ngIf="formControl.errors['required']">This field is required</p>
+    <p *ngIf="formGroup.errors['required']">This field is required</p>
 
-    <p *ngIf="formControl.errors['minLength']">
-      This value has {{ formControl.errors["actualLength"] }} but must be at
-      least {{ formControl.errors["requiredLength"] }}
+    <p *ngIf="formGroup.errors['minLength']">
+      This value has {{ formGroup.errors["actualLength"] }} but must be at least
+      {{ formGroup.errors["requiredLength"] }}
     </p>
   </ng-container>
 </div>
