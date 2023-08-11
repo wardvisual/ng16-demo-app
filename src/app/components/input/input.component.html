@@ -1,17 +1,30 @@
 <!-- Textarea -->
-<textarea
-  *ngIf="type === 'textarea'"
-  [name]="name"
-  [required]="required ? true : false"
-  [value]="value"
-  [formControl]="formControl"></textarea>
+<div [ngClass]="{ textarea: type === 'textarea' }" *ngIf="type === 'textarea'">
+  <label [for]="name">{{ label }}</label>
+  <textarea
+    [name]="name"
+    [required]="required"
+    [value]="value"
+    [formControl]="formControl"
+  ></textarea>
+</div>
 
-<!-- Text -->
-<div *ngIf="type === 'text' || type === 'password'" [class]="type">
+<!-- Text | Password | Email -->
+<div *ngIf="type === 'text' || type === 'password' || type === 'email'">
+  <label [for]="name">{{ label }}</label>
   <input
     [type]="type"
     [name]="name"
-    [required]="required ? true : false"
+    [required]="required"
     [value]="value"
-    [formControl]="formControl"/>
+    [formControl]="formControl"
+  />
+  <ng-container *ngIf="displayErrors()">
+    <div *ngIf="formControl.errors['required']">This value is required</div>
+
+    <div *ngIf="formControl.errors['minLength']">
+      This value has {{ formControl.errors["actualLength"] }} but must be at
+      least {{ formControl.errors["requiredLength"] }}
+    </div>
+  </ng-container>
 </div>
