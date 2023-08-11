@@ -1,36 +1,53 @@
 @import "src/app/styles/mixins.scss";
 
-.auth__view {
+.auth-view {
   display: grid;
+  height: 100vh;
 
   @include md {
     grid-template-columns: repeat(2, 1fr);
   }
 
-  height: 100vh;
-
-  &--left {
+  &__left {
     display: grid;
     place-items: center;
 
+    router-outlet {
+      display: none;
+    }
+
     form {
       padding: 1em;
-      width: 100%;
-      max-width: 34em;
 
       display: grid;
       grid-gap: 1em;
 
-      @include md {
+      width: 100vw;
+
+      @include sm {
         min-width: 30em;
+        width: 30em;
+      }
+
+      footer {
+        p {
+          text-align: center;
+          margin-top: 1em;
+
+          a {
+            font-weight: var(--font-weight-900);
+            color: var(--color-brand-900);
+            cursor: pointer;
+          }
+        }
       }
     }
   }
 
-  &--right {
+  &__right {
     background: var(--color-brand-900);
-
     display: none;
+
     @include md {
       display: grid;
       place-items: center;
@@ -41,9 +58,9 @@
       place-items: center;
       grid-gap: 2em;
 
-      text-align: center;
       * {
         color: var(--color-brand-50);
+        text-align: center;
       }
     }
   }
