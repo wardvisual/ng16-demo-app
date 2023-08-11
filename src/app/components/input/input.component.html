@@ -1,1 +1,17 @@
-<p>input works!</p>
+<!-- Textarea -->
+<textarea
+  *ngIf="type === 'textarea'"
+  [name]="name"
+  [required]="required ? true : false"
+  [value]="value"
+  [formControl]="formControl"></textarea>
+
+<!-- Text -->
+<div *ngIf="type === 'text' || type === 'password'" [class]="type">
+  <input
+    [type]="type"
+    [name]="name"
+    [required]="required ? true : false"
+    [value]="value"
+    [formControl]="formControl"/>
+</div>
