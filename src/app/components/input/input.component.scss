@@ -1,6 +1,20 @@
 input,
 textarea {
-  padding: 0.8em;
+  padding: 0.7em;
   background: none;
-  border: 1px var(--color-neutral-400) solid;
+  border: 1px var(--color-neutral-100) solid;
+  border-radius: var(--radius-5);
+}
+
+.input__field {
+  display: grid;
+
+  label {
+    color: var(--color-neutral-600);
+    margin: 1em 0 0.2em 0;
+  }
+
+  p {
+    color: var(--color-red-900);
+  }
 }
