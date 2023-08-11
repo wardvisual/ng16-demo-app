@@ -1,0 +1,18 @@
+section {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+
+  height: 100vh;
+
+  > div:first-child {
+    height: inherit;
+  }
+
+  > div:last-child {
+    height: inherit;
+    background: rgb(57, 218, 105);
+  }
+
+  form {
+  }
+}

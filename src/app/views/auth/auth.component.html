@@ -1,1 +1,62 @@
-<p>auth works!</p>
+<section>
+  <div>
+    <form>
+      <header>
+        <h1>Welcome back!</h1>
+      </header>
+
+      <section>
+        <div>
+          <app-input
+            type="text"
+            name="firstName"
+            label="First Name"
+            [required]="true"
+            [formControl]="$any(form.get('firstName'))"
+          ></app-input>
+
+          <app-input
+            type="text"
+            name="lastName"
+            label="Last Name"
+            [required]="true"
+            [formControl]="$any(form.get('lastName'))"
+          ></app-input>
+        </div>
+
+        <app-input
+          type="text"
+          name="username"
+          label="username"
+          [required]="true"
+          [formControl]="$any(form.get('username'))"
+        ></app-input>
+
+        <app-input
+          type="email"
+          name="emailAddress"
+          label="Email Address"
+          [required]="true"
+          [formControl]="$any(form.get('emailAddress'))"
+        ></app-input>
+
+        <app-input
+          type="password"
+          name="password"
+          label="Password"
+          [required]="true"
+          [formControl]="$any(form.get('password'))"
+        ></app-input>
+      </section>
+      <footer>
+        <app-button
+          type="submit"
+          variant="primary"
+          name="Sign Up"
+          (buttonClick)="onSignup($event)"
+        ></app-button>
+      </footer>
+    </form>
+  </div>
+  <div></div>
+</section>
