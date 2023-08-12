@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { FormControl, Validators } from '@angular/forms';
-import { NavigationEnd, Router } from '@angular/router';
 
 import { AuthService } from './auth.service';
 import { SignUp, SignIn } from './types/auth.types';
@@ -19,7 +18,6 @@ export class AuthComponent implements OnInit {
   isDisabled: boolean;
 
   constructor(
-    private routerService: Router,
     private authService: AuthService,
     public loaderService: LoaderService
   ) {}
@@ -27,33 +25,8 @@ export class AuthComponent implements OnInit {
   ngOnInit(): void {
     this.createSignUpForm();
     this.createSignInForm();
-    this.subscribeToRouterEvents();
 
     this.isDisabled = true;
-  }
-
-  /**
-   * Subscribes to router events and updates the current route.
-   *
-   * @private
-   * @return {void}
-   */
-  private subscribeToRouterEvents(): void {
-    this.routerService.events.subscribe((event) => {
-      if (event instanceof NavigationEnd) {
-        this.currentRoute = event.url;
-      }
-    });
-  }
-
-  /**
-   * Opens a page by navigating to the specified URL.
-   *
-   * @param {string} url - The URL of the page to open.
-   * @return {void} This function does not return a value.
-   */
-  openPage(url: string): void {
-    this.routerService.navigateByUrl(`/${url}`);
   }
 
   onValidationStatusChange(status: boolean) {
