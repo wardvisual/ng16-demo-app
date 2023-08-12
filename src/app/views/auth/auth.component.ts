@@ -6,6 +6,8 @@ import { AuthService } from './auth.service';
 import { SignUp, SignIn } from './types/auth.types';
 import { SupabaseResponse } from '@ng16-demoapp/types';
 import { LoaderService } from '@ng16-demoapp/services';
+import { RoutingService } from '../../core/services/routing.service';
+import { LocalStorageService } from '../../core/services/local-storage.service';
 
 @Component({
   selector: 'app-auth',
@@ -19,7 +21,9 @@ export class AuthComponent implements OnInit {
 
   constructor(
     private authService: AuthService,
-    public loaderService: LoaderService
+    public loaderService: LoaderService,
+    public localStorageService: LocalStorageService,
+    public routingService: RoutingService
   ) {}
 
   ngOnInit(): void {
@@ -83,12 +87,12 @@ export class AuthComponent implements OnInit {
   }
 
   /**
-   * Asynchronously handles the signup event.
+   * Handles the sign up event.
    *
-   * @param {Event} event - The signup event.
-   * @return {Promise<SupabaseResponse>} - A promise that resolves to a SupabaseResponse.
+   * @param {Event} event - The sign up event.
+   * @return {Promise<void>} - A promise that resolves when the sign up process is complete.
    */
-  async onSignUp(event: Event): Promise<SupabaseResponse> {
+  async onSignUp(event: Event): Promise<void> {
     event.preventDefault();
 
     this.loaderService.setLoading(true);
@@ -97,16 +101,18 @@ export class AuthComponent implements OnInit {
 
     this.loaderService.setLoading(false);
 
-    return response;
+    if (response.iSuccess) {
+      this.routingService.redirectTo('/signin');
+    }
   }
 
   /**
-   * Asynchronously handles the signin event.
+   * Handles the sign-in event.
    *
-   * @param {Event} event - The event triggering the signin.
-   * @return {Promise<SupabaseResponse>} A promise that resolves to a SupabaseResponse.
+   * @param {Event} event - The sign-in event.
+   * @return {Promise<void>} A promise that resolves when the sign-in process is complete.
    */
-  async onSignIn(event: Event): Promise<SupabaseResponse> {
+  async onSignIn(event: Event): Promise<void> {
     event.preventDefault();
 
     this.loaderService.setLoading(true);
@@ -115,6 +121,10 @@ export class AuthComponent implements OnInit {
 
     this.loaderService.setLoading(false);
 
-    return response;
+    if (response.iSuccess) {
+      this.localStorageService.setItem('currentUser', response.result);
+
+      this.routingService.redirectTo('/');
+    }
   }
 }
