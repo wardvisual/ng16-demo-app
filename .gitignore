@@ -43,3 +43,4 @@ Thumbs.db
 note.txt
 
 .env
+custom-env.js
