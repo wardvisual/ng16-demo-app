@@ -25,7 +25,8 @@
       "@ng16-demoapp/components": ["src/app/components/index.ts"],
       "@ng16-demoapp/views": ["src/app/views/index.ts"],
       "@ng16-demoapp/layouts": ["src/app/layouts/index.ts"],
-      "@ng16-demoapp/core": ["src/app/core/index.ts"],
+      "@ng16-demoapp/services": ["src/app/core/services/index.ts"],
+      "@ng16-demoapp/types": ["src/app/core/types/index.ts"],
       "@ng16-demoapp/environments": ["src/environments/index.ts"]
     }
   },
