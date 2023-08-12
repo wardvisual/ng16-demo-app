@@ -49,7 +49,7 @@ export class InputComponent implements OnInit {
       }
 
       if (control.errors.pattern) {
-        return 'This value does not match the required pattern';
+        return 'Invalid email address';
       }
     }
 
