@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { CUSTOM_ELEMENTS_SCHEMA, NgModule } from '@angular/core';
 import { HttpClientModule } from '@angular/common/http';
 import { RouterModule } from '@angular/router';
 import { BrowserModule } from '@angular/platform-browser';
@@ -15,9 +15,13 @@ import {
   MainLayoutComponent,
 } from '@ng16-demoapp/layouts';
 
+import { IconsModule } from './icons.module';
+
 @NgModule({
   declarations: [
     AppComponent,
+    InputComponent,
+    ButtonComponent,
     HomeComponent,
     AuthComponent,
     SignInComponent,
@@ -30,13 +34,11 @@ import {
     AppRoutingModule,
     HttpClientModule,
     ReactiveFormsModule,
-
-    /* Standalone Components */
-    InputComponent,
-    ButtonComponent,
+    IconsModule,
   ],
   providers: [],
   exports: [RouterModule],
   bootstrap: [AppComponent],
+  schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })
 export class AppModule {}
