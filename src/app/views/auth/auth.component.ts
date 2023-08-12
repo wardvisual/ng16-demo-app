@@ -4,7 +4,6 @@ import { FormControl, Validators } from '@angular/forms';
 
 import { AuthService } from './auth.service';
 import { SignUp, SignIn } from './types/auth.types';
-import { SupabaseResponse } from '@ng16-demoapp/types';
 import { LoaderService } from '@ng16-demoapp/services';
 import { RoutingService } from '../../core/services/routing.service';
 import { LocalStorageService } from '../../core/services/local-storage.service';
