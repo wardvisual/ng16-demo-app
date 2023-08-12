@@ -18,4 +18,16 @@ button {
     transform: scale(0.99);
     outline: invert;
   }
+
+  &.disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    &:active {
+      transform: unset;
+    }
+    &:hover {
+      transition: unset;
+      background-color: var(--color-brand-900);
+    }
+  }
 }

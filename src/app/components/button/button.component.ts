@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, Output, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 @Component({
@@ -8,7 +8,7 @@ import { CommonModule } from '@angular/common';
   templateUrl: './button.component.html',
   styleUrls: ['./button.component.scss'],
 })
-export class ButtonComponent implements OnInit {
+export class ButtonComponent {
   @Input()
   set name(name: string) {
     this.buttonName = name.toLocaleUpperCase();
@@ -16,8 +16,6 @@ export class ButtonComponent implements OnInit {
   get name(): string {
     return this.buttonName;
   }
-
-  ngOnInit(): void {}
 
   @Output() buttonClick?: EventEmitter<any> = new EventEmitter();
   @Input() buttonName: string;

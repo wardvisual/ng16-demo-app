@@ -2,6 +2,7 @@
   [type]="type"
   [class]="variant"
   [disabled]="isDisabled"
+  [ngClass]="{ disabled: isDisabled }"
   (click)="onClick()"
 >
   {{ name }}
