@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { FormControl, Validators } from '@angular/forms';
 import { NavigationEnd, Router } from '@angular/router';
@@ -11,23 +11,37 @@ import { SupabaseResponse } from '@ng16-demoapp/types';
   selector: 'app-auth',
   templateUrl: './auth.component.html',
 })
-export class AuthComponent {
+export class AuthComponent implements OnInit {
   signUpForm: FormGroup;
   signInForm: FormGroup;
   currentRoute: string;
+  isDisabled: boolean;
 
-  constructor(private routerService: Router, private authService: AuthService) {
-    /* Subscribe to router events */
+  constructor(
+    private routerService: Router,
+    private authService: AuthService
+  ) {}
+
+  ngOnInit(): void {
+    this.createSignUpForm();
+    this.createSignInForm();
+    this.subscribeToRouterEvents();
+
+    this.isDisabled = true;
+  }
+
+  /**
+   * Subscribes to router events and updates the current route.
+   *
+   * @private
+   * @return {void}
+   */
+  private subscribeToRouterEvents(): void {
     this.routerService.events.subscribe((event) => {
-      /* Update currentRoute when NavigationEnd event occurs */
       if (event instanceof NavigationEnd) {
         this.currentRoute = event.url;
       }
     });
-
-    /* Create signup and signin forms */
-    this.createSignupForm();
-    this.createSigninForm();
   }
 
   /**
@@ -40,12 +54,16 @@ export class AuthComponent {
     this.routerService.navigateByUrl(`/${url}`);
   }
 
+  onValidationStatusChange(status: boolean) {
+    this.isDisabled = !status;
+  }
+
   /**
    * Creates a signup form.
    *
    * @return {void}
    */
-  createSignupForm(): void {
+  createSignUpForm(): void {
     this.signUpForm = new FormGroup<SignUp>({
       firstName: new FormControl('', [
         Validators.required,
@@ -62,6 +80,7 @@ export class AuthComponent {
       emailAddress: new FormControl('', [
         Validators.required,
         Validators.email,
+        Validators.pattern('[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,4}$'),
       ]),
       password: new FormControl('', [
         Validators.required,
@@ -75,7 +94,7 @@ export class AuthComponent {
    *
    * @returns {void} - No return value.
    */
-  createSigninForm(): void {
+  createSignInForm(): void {
     this.signInForm = new FormGroup<SignIn>({
       username: new FormControl('', [
         Validators.required,
@@ -96,10 +115,8 @@ export class AuthComponent {
    */
   async onSignUp(event: Event): Promise<SupabaseResponse> {
     event.preventDefault();
+
     const response = await this.authService.register(this.signUpForm.value);
-
-    console.log({ response });
-
     return response;
   }
 
@@ -111,10 +128,8 @@ export class AuthComponent {
    */
   async onSignIn(event: Event): Promise<SupabaseResponse> {
     event.preventDefault();
+
     const response = await this.authService.login(this.signInForm.value);
-
-    console.log({ response });
-
     return response;
   }
 }
