@@ -1,22 +1,33 @@
 button {
-  padding: 0.8em 1em 0.8em 1em;
-  border-radius: var(--radius-5);
-  background-color: var(--color-brand-900);
-  border-radius: none;
   width: 100%;
   border: none;
-  font-weight: var(--font-weight-500);
-  color: var(--color-brand-50);
   cursor: pointer;
+  padding: 0.8em 1em 0.8em 1em;
+  border-radius: var(--radius-5);
+  transition: background-color 0.3s;
+  font-weight: var(--font-weight-500);
+  background-color: var(--color-brand-900);
+
+  i-tabler {
+    font-size: 0.8rem;
+  }
+
+  * {
+    color: var(--color-brand-50) !important;
+  }
+
+  &.icon {
+    display: flex;
+    gap: 0.3em;
+    align-items: center;
+  }
 
   &:hover {
-    transition: background-color 0.3s;
     background-color: var(--color-brand-700);
   }
 
   &:active {
     transform: scale(0.99);
-    outline: invert;
   }
 
   &.disabled {
