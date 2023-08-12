@@ -1,6 +1,5 @@
 .home-component {
   padding: 1.5em 1em 0 1em;
-  user-select: none;
 
   display: grid;
   grid-gap: 2em;
@@ -40,7 +39,7 @@
 
       .notes__lists {
         display: grid;
-        grid-gap: 1em;
+        grid-gap: 0.5em;
 
         .note {
           border-radius: var(--radius-5);
