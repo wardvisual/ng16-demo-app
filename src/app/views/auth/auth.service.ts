@@ -73,9 +73,12 @@ export class AuthService {
       } satisfies SupabaseResponse;
     }
 
+    const { password, ...userWithoutPassword } = userFromDb.data;
+
     return {
       iSuccess: true,
       message: 'You are now login!',
+      result: userWithoutPassword,
     } satisfies SupabaseResponse;
   }
 }
