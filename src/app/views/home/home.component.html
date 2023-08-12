@@ -1,1 +1,36 @@
-<p>home works!</p>
+<main class="home-component">
+  <header>
+    <img src="assets/logos/astronautaking-logo.svg" alt="astronautaking logo" />
+    <i-tabler name="logout" (click)="logout()" title="Logout"></i-tabler>
+  </header>
+
+  <section>
+    <header>
+      <div>
+        <i-tabler name="user" title="You"></i-tabler>
+        <p>
+          <strong>{{ fullName }}</strong>
+        </p>
+      </div>
+      <app-button type="button" variant="primary" name="New Note" icon="plus" />
+    </header>
+
+    <section class="notes">
+      <h4>Personal Notes</h4>
+
+      <div class="notes__lists">
+        <div *ngFor="let note of notes" [ngValue]="note">
+          <div class="note">
+            <h6>{{ note.title }}</h6>
+            <div>
+              <p>{{ note.date }}</p>
+              <p>{{ note.content }}</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- desktop -->
+  </section>
+</main>
