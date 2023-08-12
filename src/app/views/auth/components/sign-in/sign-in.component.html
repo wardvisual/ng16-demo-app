@@ -37,8 +37,6 @@
       [name]="loaderService.getLoading() ? 'Logging In...' : 'Login'"
       [isDisabled]="isDisabled || loaderService.getLoading()"
     ></app-button>
-    <p>
-      Don't have an account yet? <a (click)="openPage('signup')">Sign Up</a>
-    </p>
+    <p>Don't have an account yet? <a routerLink="/signup">Sign Up</a></p>
   </footer>
 </form>
