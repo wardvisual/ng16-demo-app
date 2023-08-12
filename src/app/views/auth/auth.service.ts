@@ -4,12 +4,22 @@ import { SignIn, SignUp } from './types/auth.types';
 import { SupabaseService } from '@ng16-demoapp/services';
 import { SupabaseResponse } from '@ng16-demoapp/types';
 
+/**
+ * This class utilizes the Supabase service but it does not use the built-in authentication for users of Supabase.
+ * Instead, it implements basic custom authentication logic for demo purposes.
+ */
 @Injectable({
   providedIn: 'root',
 })
 export class AuthService {
   constructor(private supabaseService: SupabaseService) {}
 
+  /**
+   * Registers a user.
+   *
+   * @param {SignUp} user - The user data to be registered.
+   * @returns {Promise<SupabaseResponse>} The response from the Supabase API.
+   */
   public async register(user: SignUp): Promise<SupabaseResponse> {
     const userFromDb: any = await this.supabaseService.supabase
       .from('users')
@@ -17,7 +27,7 @@ export class AuthService {
       .or(
         `username.eq.${user?.username},emailAddress.eq.${user?.username},username.eq.${user?.emailAddress},emailAddress.eq.${user?.emailAddress}`
       )
-      .single(); /* Checks if a registered user already exists with the provided email or username. */
+      .single();
 
     if (userFromDb.data) {
       return {
@@ -34,6 +44,12 @@ export class AuthService {
     } satisfies SupabaseResponse;
   }
 
+  /**
+   * Logs in the user.
+   *
+   * @param {SignIn} user - The user's sign-in information.
+   * @return {Promise<SupabaseResponse>} - A promise that resolves to a SupabaseResponse.
+   */
   public async login(user: SignIn): Promise<SupabaseResponse> {
     const userFromDb: any = await this.supabaseService.supabase
       .from('users')
@@ -41,7 +57,7 @@ export class AuthService {
       .or(
         `username.eq.${user?.username},emailAddress.eq.${user?.username},username.eq.${user?.emailAddress},emailAddress.eq.${user?.emailAddress}`
       )
-      .single(); /* Checks if a registered user already exists with the provided email or username. */
+      .single();
 
     if (!userFromDb.data) {
       return {
