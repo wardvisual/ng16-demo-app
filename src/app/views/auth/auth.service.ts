@@ -16,9 +16,10 @@ export class AuthService {
       .select()
       .or(
         `username.eq.${user?.username},emailAddress.eq.${user?.username},username.eq.${user?.emailAddress},emailAddress.eq.${user?.emailAddress}`
-      ); /* Checks if a registered user already exists with the provided email or username. */
+      )
+      .single(); /* Checks if a registered user already exists with the provided email or username. */
 
-    if (userFromDb.data?.length) {
+    if (userFromDb.data) {
       return {
         iSuccess: false,
         message: `The ${user.username ? 'username' : 'email'} is already taken`,
@@ -39,19 +40,17 @@ export class AuthService {
       .select()
       .or(
         `username.eq.${user?.username},emailAddress.eq.${user?.username},username.eq.${user?.emailAddress},emailAddress.eq.${user?.emailAddress}`
-      ); /* Checks if a registered user already exists with the provided email or username. */
+      )
+      .single(); /* Checks if a registered user already exists with the provided email or username. */
 
-    if (!userFromDb.data?.length) {
+    if (!userFromDb.data) {
       return {
         iSuccess: false,
         message: `Invalid username or password`,
       } satisfies SupabaseResponse;
     }
 
-    if (
-      userFromDb.data?.length &&
-      userFromDb.data[0]?.password !== user?.password
-    ) {
+    if (userFromDb.data?.password !== user?.password) {
       return {
         iSuccess: false,
         message: `Invalid username or password`,
