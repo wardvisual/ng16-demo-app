@@ -21,7 +21,8 @@ a {
 }
 
 p,
-a {
+a,
+i-tabler {
   color: var(--color-neutral-700);
   line-height: 1.5;
 }
@@ -62,4 +63,13 @@ h6 {
 span,
 strong {
   font-size: inherit;
+}
+
+i-tabler {
+  cursor: pointer;
+  transition: all 0.3s !important;
+
+  &:active {
+    transform: scale(0.98) !important;
+  }
 }
