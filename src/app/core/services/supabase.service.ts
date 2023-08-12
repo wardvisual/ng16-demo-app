@@ -3,6 +3,9 @@ import { SupabaseClient, createClient } from '@supabase/supabase-js';
 
 import { environment } from '@ng16-demoapp/environments';
 
+/**
+ * Service for interacting with the Supabase API.
+ */
 @Injectable({
   providedIn: 'root',
 })
