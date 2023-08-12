@@ -12,6 +12,7 @@
       [required]="true"
       [formGroup]="signInForm"
       formControlName="username"
+      (validationStatusChange)="onValidationStatusChange($event)"
       ngDefaultControl
     ></app-input>
 
@@ -22,11 +23,17 @@
       [required]="true"
       [formGroup]="signInForm"
       formControlName="password"
+      (validationStatusChange)="onValidationStatusChange($event)"
       ngDefaultControl
     ></app-input>
   </section>
   <footer>
-    <app-button type="submit" variant="primary" name="Login"></app-button>
+    <app-button
+      type="submit"
+      variant="primary"
+      [name]="loaderService.getLoading() ? 'Logging In...' : 'Login'"
+      [isDisabled]="isDisabled || loaderService.getLoading()"
+    ></app-button>
     <p>
       Don't have an account yet? <a (click)="openPage('signup')">Sign Up</a>
     </p>
