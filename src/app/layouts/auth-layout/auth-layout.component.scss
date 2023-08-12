@@ -29,6 +29,19 @@
         width: 30em;
       }
 
+      header {
+        h2 {
+          line-height: 1.2;
+          margin-bottom: 0.3em;
+        }
+
+        @include sm {
+          p {
+            max-width: 95%;
+          }
+        }
+      }
+
       footer {
         margin-top: 1em;
         p {
