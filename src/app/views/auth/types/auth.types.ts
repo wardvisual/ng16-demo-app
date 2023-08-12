@@ -10,5 +10,6 @@ export interface SignUp {
 
 export interface SignIn {
   username: FormControl;
+  emailAddress?: FormControl;
   password: FormControl;
 }
