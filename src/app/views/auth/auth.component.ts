@@ -6,6 +6,7 @@ import { NavigationEnd, Router } from '@angular/router';
 import { AuthService } from './auth.service';
 import { SignUp, SignIn } from './types/auth.types';
 import { SupabaseResponse } from '@ng16-demoapp/types';
+import { LoaderService } from '@ng16-demoapp/services';
 
 @Component({
   selector: 'app-auth',
@@ -19,7 +20,8 @@ export class AuthComponent implements OnInit {
 
   constructor(
     private routerService: Router,
-    private authService: AuthService
+    private authService: AuthService,
+    public loaderService: LoaderService
   ) {}
 
   ngOnInit(): void {
@@ -116,7 +118,12 @@ export class AuthComponent implements OnInit {
   async onSignUp(event: Event): Promise<SupabaseResponse> {
     event.preventDefault();
 
+    this.loaderService.setLoading(true);
+
     const response = await this.authService.register(this.signUpForm.value);
+
+    this.loaderService.setLoading(false);
+
     return response;
   }
 
@@ -129,7 +136,12 @@ export class AuthComponent implements OnInit {
   async onSignIn(event: Event): Promise<SupabaseResponse> {
     event.preventDefault();
 
+    this.loaderService.setLoading(true);
+
     const response = await this.authService.login(this.signInForm.value);
+
+    this.loaderService.setLoading(false);
+
     return response;
   }
 }
