@@ -29,10 +29,10 @@ import {
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
-
-    /* Components */
-    InputComponent,
     ReactiveFormsModule,
+
+    /* Standalone Components */
+    InputComponent,
     ButtonComponent,
   ],
   providers: [],
