@@ -1,0 +1,72 @@
+.home-component {
+  padding: 1.5em 1em 0 1em;
+  user-select: none;
+
+  display: grid;
+  grid-gap: 2em;
+
+  header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 1em;
+
+    /* Logo */
+    img {
+      max-width: 25%;
+      min-width: 14em;
+    }
+  }
+
+  > section {
+    display: grid;
+    grid-gap: 2em;
+
+    > header {
+      > div {
+        display: flex;
+        align-items: center;
+        gap: 0.4em;
+      }
+    }
+
+    > section.notes {
+      display: grid;
+
+      h4 {
+        margin-bottom: 1.3em;
+      }
+
+      .notes__lists {
+        display: grid;
+        grid-gap: 1em;
+
+        .note {
+          border-radius: var(--radius-5);
+          background-color: var(--color-brand-50);
+          transition: all 0.3s;
+          padding: 1em;
+
+          display: grid;
+          grid-gap: 1em;
+
+          &:hover {
+            cursor: pointer;
+            background-color: var(--color-brand-100);
+          }
+
+          &:active {
+            transform: scale(0.99);
+          }
+
+          > div {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+          }
+        }
+      }
+    }
+  }
+}
