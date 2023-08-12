@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormGroup } from '@angular/forms';
 import { ReactiveFormsModule } from '@angular/forms';
@@ -16,14 +16,43 @@ export class InputComponent implements OnInit {
   @Input() name: string;
   @Input() value: string;
   @Input() required: boolean;
+  @Output() validationStatusChange = new EventEmitter<boolean>();
 
   @Input() formControlName: string;
   @Input() formGroup: FormGroup;
 
-  ngOnInit() {}
+  /**
+   * Initializes the component and sets up a subscription to listen for changes in the form control value.
+   */
+  ngOnInit() {
+    this.formGroup.get(this.formControlName).valueChanges.subscribe(() => {
+      this.validationStatusChange.emit(this.formGroup.valid);
+    });
+  }
 
-  displayErrors() {
-    const { dirty, touched, errors } = this.formGroup;
-    return dirty && touched && errors;
+  /**
+   * Returns an error message if the form control is invalid and has been touched or dirty.
+   * Otherwise, returns null.
+   *
+   * @return {string | null} The error message or null if there are no errors
+   */
+  displayErrors(): string | null {
+    const control = this.formGroup.get(this.formControlName);
+
+    if (control && control.invalid && (control.dirty || control.touched)) {
+      if (control.errors.required) {
+        return 'This field is required';
+      }
+
+      if (control.errors.minlength) {
+        return `This value has ${control.errors.minlength.actualLength} but must be at least ${control.errors.minlength.requiredLength}`;
+      }
+
+      if (control.errors.pattern) {
+        return 'This value does not match the required pattern';
+      }
+    }
+
+    return null;
   }
 }
