@@ -1,9 +1,10 @@
 <button
   [type]="type"
   [class]="variant"
+  [ngClass]="{ icon: icon, disabled: isDisabled }"
   [disabled]="isDisabled"
-  [ngClass]="{ disabled: isDisabled }"
   (click)="onClick()"
 >
-  {{ name }}
+  <i-tabler *ngIf="icon" [name]="icon" />
+  <span>{{ name }}</span>
 </button>
