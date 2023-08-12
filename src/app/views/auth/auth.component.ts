@@ -5,33 +5,48 @@ import { NavigationEnd, Router } from '@angular/router';
 
 import { AuthService } from './auth.service';
 import { SignUp, SignIn } from './types/auth.types';
+import { SupabaseResponse } from '@ng16-demoapp/types';
 
 @Component({
   selector: 'app-auth',
   templateUrl: './auth.component.html',
 })
 export class AuthComponent {
-  signupForm: FormGroup;
-  signinForm: FormGroup;
+  signUpForm: FormGroup;
+  signInForm: FormGroup;
   currentRoute: string;
 
-  constructor(private router: Router, private authService: AuthService) {
-    this.router.events.subscribe((event) => {
+  constructor(private routerService: Router, private authService: AuthService) {
+    /* Subscribe to router events */
+    this.routerService.events.subscribe((event) => {
+      /* Update currentRoute when NavigationEnd event occurs */
       if (event instanceof NavigationEnd) {
         this.currentRoute = event.url;
       }
     });
 
+    /* Create signup and signin forms */
     this.createSignupForm();
     this.createSigninForm();
   }
 
+  /**
+   * Opens a page by navigating to the specified URL.
+   *
+   * @param {string} url - The URL of the page to open.
+   * @return {void} This function does not return a value.
+   */
   openPage(url: string): void {
-    this.router.navigateByUrl(`/${url}`);
+    this.routerService.navigateByUrl(`/${url}`);
   }
 
-  createSignupForm() {
-    this.signupForm = new FormGroup<SignUp>({
+  /**
+   * Creates a signup form.
+   *
+   * @return {void}
+   */
+  createSignupForm(): void {
+    this.signUpForm = new FormGroup<SignUp>({
       firstName: new FormControl('', [
         Validators.required,
         Validators.minLength(3),
@@ -55,8 +70,13 @@ export class AuthComponent {
     });
   }
 
-  createSigninForm() {
-    this.signinForm = new FormGroup<SignIn>({
+  /**
+   * Creates the signin form.
+   *
+   * @returns {void} - No return value.
+   */
+  createSigninForm(): void {
+    this.signInForm = new FormGroup<SignIn>({
       username: new FormControl('', [
         Validators.required,
         Validators.minLength(6),
@@ -68,13 +88,33 @@ export class AuthComponent {
     });
   }
 
-  onSignup(event: Event): void {
+  /**
+   * Asynchronously handles the signup event.
+   *
+   * @param {Event} event - The signup event.
+   * @return {Promise<SupabaseResponse>} - A promise that resolves to a SupabaseResponse.
+   */
+  async onSignUp(event: Event): Promise<SupabaseResponse> {
     event.preventDefault();
-    console.log({ n: this.signupForm.value });
+    const response = await this.authService.register(this.signUpForm.value);
+
+    console.log({ response });
+
+    return response;
   }
 
-  onSignin(event: Event): void {
+  /**
+   * Asynchronously handles the signin event.
+   *
+   * @param {Event} event - The event triggering the signin.
+   * @return {Promise<SupabaseResponse>} A promise that resolves to a SupabaseResponse.
+   */
+  async onSignIn(event: Event): Promise<SupabaseResponse> {
     event.preventDefault();
-    console.log({ n: this.signinForm.value });
+    const response = await this.authService.login(this.signInForm.value);
+
+    console.log({ response });
+
+    return response;
   }
 }
