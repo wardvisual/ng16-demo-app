@@ -1,4 +1,4 @@
-<form [formGroup]="signupForm" (ngSubmit)="onSignup($event)">
+<form [formGroup]="signUpForm" (ngSubmit)="onSignUp($event)">
   <header>
     <h2>Welcome abroad!</h2>
     <p>Please tell us a litte bit about yourself.</p>
@@ -11,7 +11,7 @@
         name="firstName"
         label="First Name"
         [required]="true"
-        [formGroup]="signupForm"
+        [formGroup]="signUpForm"
         formControlName="firstName"
         ngDefaultControl
       ></app-input>
@@ -21,7 +21,7 @@
         name="lastName"
         label="Last Name"
         [required]="true"
-        [formGroup]="signupForm"
+        [formGroup]="signUpForm"
         formControlName="lastName"
         ngDefaultControl
       ></app-input>
@@ -32,7 +32,7 @@
       name="username"
       label="Username"
       [required]="true"
-      [formGroup]="signupForm"
+      [formGroup]="signUpForm"
       formControlName="username"
       ngDefaultControl
     ></app-input>
@@ -42,7 +42,7 @@
       name="emailAddress"
       label="Email Address"
       [required]="true"
-      [formGroup]="signupForm"
+      [formGroup]="signUpForm"
       formControlName="emailAddress"
       ngDefaultControl
     ></app-input>
@@ -52,7 +52,7 @@
       name="password"
       label="Password"
       [required]="true"
-      [formGroup]="signupForm"
+      [formGroup]="signUpForm"
       formControlName="password"
       ngDefaultControl
     ></app-input>

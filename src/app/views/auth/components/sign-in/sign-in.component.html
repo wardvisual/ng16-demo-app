@@ -1,4 +1,4 @@
-<form [formGroup]="signinForm" (ngSubmit)="onSignin($event)">
+<form [formGroup]="signInForm" (ngSubmit)="onSignIn($event)">
   <header>
     <h2>Welcome abroad!</h2>
     <p>Please tell us a litte bit about yourself.</p>
@@ -10,7 +10,7 @@
       name="username"
       label="Username"
       [required]="true"
-      [formGroup]="signinForm"
+      [formGroup]="signInForm"
       formControlName="username"
       ngDefaultControl
     ></app-input>
@@ -20,7 +20,7 @@
       name="password"
       label="Password"
       [required]="true"
-      [formGroup]="signinForm"
+      [formGroup]="signInForm"
       formControlName="password"
       ngDefaultControl
     ></app-input>
