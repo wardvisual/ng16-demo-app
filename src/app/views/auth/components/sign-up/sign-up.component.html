@@ -13,6 +13,7 @@
         [required]="true"
         [formGroup]="signUpForm"
         formControlName="firstName"
+        (validationStatusChange)="onValidationStatusChange($event)"
         ngDefaultControl
       ></app-input>
 
@@ -23,6 +24,7 @@
         [required]="true"
         [formGroup]="signUpForm"
         formControlName="lastName"
+        (validationStatusChange)="onValidationStatusChange($event)"
         ngDefaultControl
       ></app-input>
     </div>
@@ -34,6 +36,7 @@
       [required]="true"
       [formGroup]="signUpForm"
       formControlName="username"
+      (validationStatusChange)="onValidationStatusChange($event)"
       ngDefaultControl
     ></app-input>
 
@@ -44,6 +47,7 @@
       [required]="true"
       [formGroup]="signUpForm"
       formControlName="emailAddress"
+      (validationStatusChange)="onValidationStatusChange($event)"
       ngDefaultControl
     ></app-input>
 
@@ -54,11 +58,17 @@
       [required]="true"
       [formGroup]="signUpForm"
       formControlName="password"
+      (validationStatusChange)="onValidationStatusChange($event)"
       ngDefaultControl
     ></app-input>
   </section>
   <footer>
-    <app-button type="submit" variant="primary" name="Register"></app-button>
+    <app-button
+      type="submit"
+      variant="primary"
+      name="Register"
+      [isDisabled]="isDisabled"
+    ></app-button>
     <p>Already have an account? <a (click)="openPage('signin')">Login</a></p>
   </footer>
 </form>
