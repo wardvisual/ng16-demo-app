@@ -1,24 +1,31 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
+import { SignInComponent, SignUpComponent } from '@ng16-demoapp/views/auth';
 import { HomeComponent } from '@ng16-demoapp/views';
-
-import { SignInComponent } from './views/auth/components/sign-in/sign-in.component';
-import { SignUpComponent } from './views/auth/components/sign-up/sign-up.component';
-import { AuthLayoutComponent } from './layouts/auth-layout/auth-layout.component';
+import {
+  AuthLayoutComponent,
+  MainLayoutComponent,
+} from '@ng16-demoapp/layouts';
 
 export const routes: Routes = [
   {
     path: '',
     children: [
       {
-        path: '',
-        pathMatch: 'full',
-        component: HomeComponent,
-      },
-      {
         path: 'home',
         redirectTo: '',
+      },
+      {
+        path: '',
+        pathMatch: 'full',
+        component: MainLayoutComponent,
+        children: [
+          {
+            path: '',
+            component: HomeComponent,
+          },
+        ],
       },
       {
         path: '',
