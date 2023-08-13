@@ -8,8 +8,9 @@ import {
   RoutingService,
 } from '@ng16-demoapp/services';
 import { NoteFeatureService } from './note-feature.service';
-import { Note } from '../types/note.type';
 import { SupabaseResponse } from '@ng16-demoapp/types';
+import { ToastService } from '@ng16-demoapp/components';
+import { Note } from '../types/note.type';
 
 @Component({
   selector: 'app-new-note',
@@ -24,7 +25,8 @@ export class NoteFeatureComponent implements OnInit {
     public noteService: NoteFeatureService,
     public loaderService: LoaderService,
     public localStorageService: LocalStorageService,
-    public routingService: RoutingService
+    public routingService: RoutingService,
+    public toastService: ToastService
   ) {}
 
   ngOnInit(): void {
@@ -59,7 +61,7 @@ export class NoteFeatureComponent implements OnInit {
 
     this.loaderService.setLoading(true);
 
-    const response = await this.noteService.createNewNote({
+    const response: any = await this.noteService.createNewNote({
       userId: this.localStorageService.getItem('currentUser').id,
       createdAt: new Date(),
       ...this.newNoteForm.value,
@@ -67,20 +69,22 @@ export class NoteFeatureComponent implements OnInit {
 
     this.loaderService.setLoading(false);
 
+    this.toastService.openToast(response.isSuccess, response.message);
+
     console.log(response);
-    // if (response.isSuccess) {
-    // }
   }
 
-  onGetAllNotes(): void {
+  onGetAllNotes(): null | void {
     this.loaderService.setLoading(true);
 
-    const response: SupabaseResponse<Note> = this.noteService.getAllNotes();
+    const response: any = this.noteService.getAllNotes();
 
     if (!response.isSuccess) {
-      //error
+      // display error
+      return;
     }
 
+    console.log({ response });
     this.loaderService.setLoading(false);
 
     this.notes = response.result;
