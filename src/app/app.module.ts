@@ -9,7 +9,10 @@ import { AppRoutingModule } from './app-routing.module';
 
 import { HomeComponent, AuthComponent } from '@ng16-demoapp/views';
 import { SignInComponent, SignUpComponent } from '@ng16-demoapp/views/auth';
-import { NewNoteComponent } from '@ng16-demoapp/views/home';
+import {
+  NewNoteComponent,
+  NotestListingComponent,
+} from '@ng16-demoapp/views/home';
 
 import {
   ButtonComponent,
@@ -23,6 +26,7 @@ import {
 } from '@ng16-demoapp/layouts';
 
 import { IconsModule } from './icons.module';
+import { TruncatePipe } from '@ng16-demoapp/pipes';
 
 @NgModule({
   declarations: [
@@ -31,6 +35,7 @@ import { IconsModule } from './icons.module';
     ButtonComponent,
     HomeComponent,
     NewNoteComponent,
+    NotestListingComponent,
     AuthComponent,
     SignInComponent,
     SignUpComponent,
@@ -38,6 +43,9 @@ import { IconsModule } from './icons.module';
     ToastComponent,
     AuthLayoutComponent,
     MainLayoutComponent,
+
+    // Pipes
+    TruncatePipe,
   ],
   imports: [
     BrowserModule,
