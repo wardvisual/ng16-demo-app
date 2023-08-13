@@ -1,0 +1,15 @@
+<div
+  class="modal-overlay"
+  [ngClass]="{ open: isOpen$ | async }"
+  (click)="toggleModalFromOverlay($event)"
+>
+  <div class="modal">
+    <div class="modal-header">
+      <h2>{{ title }}</h2>
+      <i-tabler name="x" (click)="modalService.toggleModal()" />
+    </div>
+    <div class="modal-body">
+      <ng-content></ng-content>
+    </div>
+  </div>
+</div>
