@@ -1,0 +1,20 @@
+<section class="notes">
+  <h4>Personal Notes</h4>
+
+  <div class="notes__lists">
+    <div *ngFor="let note of notesList() | async" [ngValue]="note">
+      <div class="notes__item">
+        <h6>
+          {{ note.title }}
+        </h6>
+        <div>
+          <p>
+            <i-tabler name="calendar" class="opacity-50" />
+            <span>{{ note.createdAt | date : "MM/dd/yyyy" }}</span>
+          </p>
+          <p>{{ note.content }}</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
