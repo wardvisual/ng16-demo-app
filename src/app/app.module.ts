@@ -9,6 +9,8 @@ import { AppRoutingModule } from './app-routing.module';
 
 import { HomeComponent, AuthComponent } from '@ng16-demoapp/views';
 import { SignInComponent, SignUpComponent } from '@ng16-demoapp/views/auth';
+import { NewNoteComponent } from '@ng16-demoapp/views/home';
+
 import {
   ButtonComponent,
   InputComponent,
@@ -27,6 +29,7 @@ import { IconsModule } from './icons.module';
     InputComponent,
     ButtonComponent,
     HomeComponent,
+    NewNoteComponent,
     AuthComponent,
     SignInComponent,
     SignUpComponent,
