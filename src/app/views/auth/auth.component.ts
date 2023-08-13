@@ -96,11 +96,11 @@ export class AuthComponent implements OnInit {
   async onSignUp(event: Event): Promise<void> {
     event.preventDefault();
 
-    this.loaderService.setLoading(true);
+    this.loaderService.setLoading(this, true);
 
     const response = await this.authService.register(this.signUpForm.value);
 
-    this.loaderService.setLoading(false);
+    this.loaderService.setLoading(this, false);
 
     if (response.isSuccess) {
       this.routingService.redirectTo('/signin');
@@ -116,11 +116,11 @@ export class AuthComponent implements OnInit {
   async onSignIn(event: Event): Promise<void> {
     event.preventDefault();
 
-    this.loaderService.setLoading(true);
+    this.loaderService.setLoading(this, true);
 
     const response = await this.authService.login(this.signInForm.value);
 
-    this.loaderService.setLoading(false);
+    this.loaderService.setLoading(this, false);
 
     if (response.isSuccess) {
       this.localStorageService.setItem('currentUser', response.result);
