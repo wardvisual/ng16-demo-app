@@ -15,6 +15,7 @@ import {
   ButtonComponent,
   InputComponent,
   ModalComponent,
+  ToastComponent,
 } from '@ng16-demoapp/components';
 import {
   AuthLayoutComponent,
@@ -34,6 +35,7 @@ import { IconsModule } from './icons.module';
     SignInComponent,
     SignUpComponent,
     ModalComponent,
+    ToastComponent,
     AuthLayoutComponent,
     MainLayoutComponent,
   ],
