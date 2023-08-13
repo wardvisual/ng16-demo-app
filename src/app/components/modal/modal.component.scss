@@ -1,3 +1,5 @@
+@import "src/app/styles/mixins.scss";
+
 .modal-overlay {
   position: fixed;
   top: 0;
@@ -21,20 +23,32 @@
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
+  padding: 1.5em;
+  border-radius: var(--radius-5);
   background-color: var(--color-brand-50);
-  padding: 20px;
-  border-radius: 5px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.226);
 
-  .modal-header {
+  &__header {
+    padding: 0.5em 0 1em 0;
     display: flex;
     justify-content: space-between;
     align-items: center;
     margin-bottom: 10px;
+    border-bottom: 1px var(--color-neutral-100) solid;
   }
 
-  .modal-body {
+  &__body {
     max-height: 80vh;
     overflow-y: auto;
+
+    form {
+      width: 80vw; //override default view width value of form component [.form]
+      padding: unset;
+
+      @include sm {
+        min-width: 30em;
+        width: 30em;
+      }
+    }
   }
 }

@@ -4,11 +4,15 @@
   (click)="toggleModalFromOverlay($event)"
 >
   <div class="modal">
-    <div class="modal-header">
-      <h2>{{ title }}</h2>
-      <i-tabler name="x" (click)="modalService.toggleModal()" />
+    <div class="modal__header">
+      <h6>{{ title }}</h6>
+      <i-tabler
+        name="x"
+        (click)="modalService.toggleModal()"
+        class="cursor-pointer"
+      />
     </div>
-    <div class="modal-body">
+    <div class="modal__body">
       <ng-content></ng-content>
     </div>
   </div>
