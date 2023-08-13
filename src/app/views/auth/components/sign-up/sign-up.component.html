@@ -69,8 +69,8 @@
     <app-button
       type="submit"
       variant="primary"
-      [name]="loaderService.getLoading() ? 'Signing Up...' : 'Sign Up'"
-      [isDisabled]="isDisabled || loaderService.getLoading()"
+      [name]="loaderService.getLoading(this) ? 'Signing Up...' : 'Sign Up'"
+      [isDisabled]="isDisabled || loaderService.getLoading(this)"
     ></app-button>
     <p>Already have an account? <a routerLink="/signin">Sign In</a></p>
   </footer>
