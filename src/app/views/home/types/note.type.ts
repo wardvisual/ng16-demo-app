@@ -1,6 +1,8 @@
+import { FormControl } from '@angular/forms';
+
 export interface Note {
-  title: string;
-  createdAt: Date;
-  content: string;
-  userId: string;
+  title: FormControl;
+  content: FormControl;
+  createdAt: FormControl;
+  userId: FormControl;
 }
