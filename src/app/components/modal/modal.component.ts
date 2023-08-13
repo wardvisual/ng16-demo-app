@@ -1,4 +1,11 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  Input,
+  OnInit,
+  Output,
+  ViewEncapsulation,
+} from '@angular/core';
 import { Observable } from 'rxjs';
 import { ModalService } from './modal.service';
 
@@ -6,6 +13,7 @@ import { ModalService } from './modal.service';
   selector: 'app-modal',
   templateUrl: './modal.component.html',
   styleUrls: ['./modal.component.scss'],
+  encapsulation: ViewEncapsulation.None,
 })
 export class ModalComponent implements OnInit {
   @Input() title: string;
