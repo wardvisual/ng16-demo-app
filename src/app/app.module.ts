@@ -9,7 +9,11 @@ import { AppRoutingModule } from './app-routing.module';
 
 import { HomeComponent, AuthComponent } from '@ng16-demoapp/views';
 import { SignInComponent, SignUpComponent } from '@ng16-demoapp/views/auth';
-import { ButtonComponent, InputComponent } from '@ng16-demoapp/components';
+import {
+  ButtonComponent,
+  InputComponent,
+  ModalComponent,
+} from '@ng16-demoapp/components';
 import {
   AuthLayoutComponent,
   MainLayoutComponent,
@@ -26,6 +30,7 @@ import { IconsModule } from './icons.module';
     AuthComponent,
     SignInComponent,
     SignUpComponent,
+    ModalComponent,
     AuthLayoutComponent,
     MainLayoutComponent,
   ],
@@ -34,6 +39,7 @@ import { IconsModule } from './icons.module';
     AppRoutingModule,
     HttpClientModule,
     ReactiveFormsModule,
+
     IconsModule,
   ],
   providers: [],
