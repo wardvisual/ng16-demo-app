@@ -1,19 +1,19 @@
+@import "src/app/styles/mixins.scss";
+
 button {
   width: 100%;
   border: none;
   cursor: pointer;
-  padding: 0.8em 1em 0.8em 1em;
+  padding: 0.6em 0.9em 0.6em 0.9em;
   border-radius: var(--radius-5);
   transition: background-color 0.3s;
   font-weight: var(--font-weight-500);
   background-color: var(--color-brand-900);
 
+  *,
   i-tabler {
-    font-size: 0.8rem;
-  }
-
-  * {
     color: var(--color-brand-50) !important;
+    font-size: clamp(12px, calc(0.4vw + 0.6rem), 16px);
   }
 
   &.icon {
@@ -39,6 +39,15 @@ button {
     &:hover {
       transition: unset;
       background-color: var(--color-brand-900);
+    }
+  }
+
+  @include md {
+    padding: 0.8em 1em 0.8em 1em;
+
+    *,
+    i-tabler {
+      font-size: clamp(14px, calc(0.4vw + 0.6rem), 1rem);
     }
   }
 }
