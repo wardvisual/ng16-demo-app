@@ -1,13 +1,25 @@
 <main class="home-component">
+  <!-- Modal -->
+  <app-modal
+    title="Modal"
+    [isOpen]="isModalOpen"
+    (toggleModalEvent)="toggleModal()"
+  >
+    <h3>Modal yarn</h3>
+  </app-modal>
+
+  <button (click)="toggleModal()">test</button>
+  <!-- Modal End -->
+
   <header>
     <img src="assets/logos/astronautaking-logo.svg" alt="astronautaking logo" />
-    <i-tabler name="logout" (click)="logout()" title="Logout"></i-tabler>
+    <i-tabler name="logout" (click)="logout()" title="Logout" />
   </header>
 
   <section>
     <header>
       <div>
-        <i-tabler name="user" title="You"></i-tabler>
+        <i-tabler name="user" title="You" />
         <p>
           <strong>{{ fullName }}</strong>
         </p>
@@ -20,10 +32,15 @@
 
       <div class="notes__lists">
         <div *ngFor="let note of notes" [ngValue]="note">
-          <div class="note">
-            <h6>{{ note.title }}</h6>
+          <div class="notes__lists--item">
+            <h6>
+              {{ note.title }}
+            </h6>
             <div>
-              <p>{{ note.date }}</p>
+              <p>
+                <i-tabler name="calendar" class="opacity-50" />
+                <span>{{ note.date }}</span>
+              </p>
               <p>{{ note.content }}</p>
             </div>
           </div>

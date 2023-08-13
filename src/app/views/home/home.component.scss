@@ -41,28 +41,37 @@
         display: grid;
         grid-gap: 0.5em;
 
-        .note {
-          border-radius: var(--radius-5);
-          background-color: var(--color-brand-50);
-          transition: all 0.3s;
-          padding: 1em;
+        > div {
+          .notes__lists--item {
+            border-radius: var(--radius-5);
+            background-color: var(--color-brand-50);
+            transition: all 0.3s;
+            padding: 1em;
 
-          display: grid;
-          grid-gap: 1em;
+            display: grid;
+            grid-gap: 1em;
 
-          &:hover {
-            cursor: pointer;
-            background-color: var(--color-brand-100);
-          }
+            > div {
+              display: flex;
+              justify-content: space-between;
+              flex-wrap: wrap;
+              align-items: center;
 
-          &:active {
-            transform: scale(0.99);
-          }
+              p {
+                display: flex;
+                align-items: center;
+                gap: 0.5em;
+              }
+            }
 
-          > div {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
+            &:hover {
+              cursor: pointer;
+              background-color: var(--color-brand-100);
+            }
+
+            &:active {
+              transform: scale(0.99);
+            }
           }
         }
       }

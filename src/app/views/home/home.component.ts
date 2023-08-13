@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { ModalService } from '@ng16-demoapp/components';
 
 import { LocalStorageService, RoutingService } from '@ng16-demoapp/services';
 
@@ -8,6 +9,9 @@ import { LocalStorageService, RoutingService } from '@ng16-demoapp/services';
   styleUrls: ['./home.component.scss'],
 })
 export class HomeComponent {
+  toggleSidebar: boolean = true;
+  isModalOpen: boolean = false;
+
   notes: any = [
     {
       title: 'My goals for the next year',
@@ -39,8 +43,13 @@ export class HomeComponent {
 
   constructor(
     private localStorageService: LocalStorageService,
-    private routingService: RoutingService
+    private routingService: RoutingService,
+    private modalService: ModalService
   ) {}
+
+  toggleModal() {
+    this.modalService.toggleModal();
+  }
 
   get fullName(): string {
     const user = this.localStorageService.getItem('currentUser');
