@@ -24,13 +24,13 @@ export class NoteFeatureService {
     if (response.error) {
       return {
         isSuccess: false,
-        message: response.error.message,
+        message: 'Adding note failed',
       } satisfies SupabaseResponse;
     }
 
     return {
       isSuccess: true,
-      message: 'Note created!',
+      message: 'Note successfully created!',
       result: response,
     } satisfies SupabaseResponse;
   }
@@ -51,13 +51,13 @@ export class NoteFeatureService {
     if (response.error) {
       return {
         isSuccess: false,
-        message: response.error.message,
+        message: "Can't find note",
       } satisfies SupabaseResponse;
     }
 
     return {
       isSuccess: true,
-      message: 'Note retrieved!',
+      message: 'Notes successfully retrieved!',
       result: response.data,
     } satisfies SupabaseResponse;
   }
@@ -73,13 +73,13 @@ export class NoteFeatureService {
     if (response.error) {
       return {
         isSuccess: false,
-        message: response.error.message,
+        message: "Can't find notes",
       } satisfies SupabaseResponse;
     }
 
     return {
       isSuccess: true,
-      message: 'Notes retrieved!',
+      message: 'Notes successfully retrieved!',
       result: response.data,
     } satisfies SupabaseResponse;
   }

@@ -27,52 +27,5 @@
         gap: 0.4em;
       }
     }
-
-    > section.notes {
-      display: grid;
-
-      h4 {
-        margin-bottom: 1.3em;
-      }
-
-      .notes__lists {
-        display: grid;
-        grid-gap: 0.5em;
-
-        > div {
-          .notes__lists--item {
-            border-radius: var(--radius-5);
-            background-color: var(--color-brand-50);
-            transition: all 0.3s;
-            padding: 1em;
-
-            display: grid;
-            grid-gap: 1em;
-
-            > div {
-              display: flex;
-              justify-content: space-between;
-              flex-wrap: wrap;
-              align-items: center;
-
-              p {
-                display: flex;
-                align-items: center;
-                gap: 0.5em;
-              }
-            }
-
-            &:hover {
-              cursor: pointer;
-              background-color: var(--color-brand-100);
-            }
-
-            &:active {
-              transform: scale(0.99);
-            }
-          }
-        }
-      }
-    }
   }
 }

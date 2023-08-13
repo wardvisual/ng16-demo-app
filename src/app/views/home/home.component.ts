@@ -16,35 +16,6 @@ export class HomeComponent {
   newNoteForm: FormGroup;
   isDisabled: boolean;
 
-  notes: any = [
-    {
-      title: 'My goals for the next year',
-      date: '31/12/2022',
-      content: 'As the year comes...',
-    },
-    {
-      title: 'My goals for the next year',
-      date: '31/12/2022',
-      content: 'As the year comes...',
-    },
-    {
-      title: 'My goals for the next year',
-      date: '31/12/2022',
-      content: 'As the year comes...',
-    },
-
-    {
-      title: 'My goals for the next year',
-      date: '31/12/2022',
-      content: 'As the year comes...',
-    },
-    {
-      title: 'My goals for the next year',
-      date: '31/12/2022',
-      content: 'As the year comes...',
-    },
-  ];
-
   constructor(
     private localStorageService: LocalStorageService,
     private routingService: RoutingService,

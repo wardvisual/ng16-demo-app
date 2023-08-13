@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, computed, signal } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { FormControl, Validators } from '@angular/forms';
 
@@ -8,8 +8,7 @@ import {
   RoutingService,
 } from '@ng16-demoapp/services';
 import { NoteFeatureService } from './note-feature.service';
-import { SupabaseResponse } from '@ng16-demoapp/types';
-import { ToastService } from '@ng16-demoapp/components';
+import { ModalService, ToastService } from '@ng16-demoapp/components';
 import { Note } from '../types/note.type';
 
 @Component({
@@ -19,14 +18,19 @@ import { Note } from '../types/note.type';
 export class NoteFeatureComponent implements OnInit {
   newNoteForm: FormGroup;
   isDisabled: boolean;
-  notes: Note[];
+  notes = signal<Note[]>([]);
+
+  notesList = computed(
+    async () => (await this.noteService.getAllNotes()).result
+  );
 
   constructor(
     public noteService: NoteFeatureService,
     public loaderService: LoaderService,
     public localStorageService: LocalStorageService,
     public routingService: RoutingService,
-    public toastService: ToastService
+    public toastService: ToastService,
+    public modalService: ModalService
   ) {}
 
   ngOnInit(): void {
@@ -56,10 +60,16 @@ export class NoteFeatureComponent implements OnInit {
     });
   }
 
+  /**
+   * Creates a new note when an event is triggered.
+   *
+   * @param {Event} event - The event object.
+   * @return {Promise<void>} A promise that resolves when the note is created.
+   */
   async onCreateNewNote(event: Event): Promise<void> {
     event.preventDefault();
 
-    this.loaderService.setLoading(true);
+    this.loaderService.setLoading(this, true);
 
     const response: any = await this.noteService.createNewNote({
       userId: this.localStorageService.getItem('currentUser').id,
@@ -67,26 +77,27 @@ export class NoteFeatureComponent implements OnInit {
       ...this.newNoteForm.value,
     });
 
-    this.loaderService.setLoading(false);
-
-    this.toastService.openToast(response.isSuccess, response.message);
-
-    console.log(response);
-  }
-
-  onGetAllNotes(): null | void {
-    this.loaderService.setLoading(true);
-
-    const response: any = this.noteService.getAllNotes();
-
-    if (!response.isSuccess) {
-      // display error
-      return;
+    if (response.isSuccess) {
+      await this.onGetAllNotes();
+      this.toastService.openToast(response.isSuccess, response.message);
+      this.modalService.toggleModal();
+      console.log(response);
     }
 
-    console.log({ response });
-    this.loaderService.setLoading(false);
+    this.loaderService.setLoading(this, false);
+  }
 
-    this.notes = response.result;
+  async onGetAllNotes(): Promise<null | void> {
+    this.loaderService.setLoading(this, true);
+
+    const response: any = await this.noteService.getAllNotes();
+
+    if (!response.isSuccess) {
+      this.toastService.openToast(response.isSuccess, response.message);
+    }
+
+    this.loaderService.setLoading(this, false);
+
+    this.notes.set([...this.notes(), response.result]);
   }
 }

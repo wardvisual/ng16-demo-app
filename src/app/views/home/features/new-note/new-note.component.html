@@ -37,8 +37,8 @@
       <app-button
         type="submit"
         variant="primary"
-        [name]="loaderService.getLoading() ? 'Creating...' : 'Create Note'"
-        [isDisabled]="isDisabled || loaderService.getLoading()"
+        [name]="loaderService.getLoading(this) ? 'Creating...' : 'Create Note'"
+        [isDisabled]="isDisabled || loaderService.getLoading(this)"
       ></app-button>
     </footer>
   </form>
