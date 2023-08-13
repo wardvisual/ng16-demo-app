@@ -8,6 +8,8 @@ import {
   IconNotebook,
   IconCalendar,
   IconX,
+  IconSquareRoundedCheck,
+  IconSquareRoundedX,
 } from 'angular-tabler-icons/icons';
 
 const icons = {
@@ -17,6 +19,8 @@ const icons = {
   IconNotebook,
   IconCalendar,
   IconX,
+  IconSquareRoundedCheck,
+  IconSquareRoundedX,
 };
 
 @NgModule({
