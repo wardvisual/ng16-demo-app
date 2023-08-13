@@ -1,0 +1,49 @@
+.form {
+  display: grid;
+  place-items: center;
+
+  router-outlet {
+    display: none;
+  }
+
+  form {
+    padding: 1em;
+
+    display: grid;
+    grid-gap: 1em;
+
+    width: 100vw;
+
+    @include sm {
+      min-width: 30em;
+      width: 30em;
+    }
+
+    header {
+      h2 {
+        line-height: 1.2;
+        margin-bottom: 0.3em;
+      }
+
+      @include sm {
+        p {
+          max-width: 95%;
+        }
+      }
+    }
+
+    footer {
+      margin-top: 1em;
+      p {
+        text-align: center;
+        margin-top: 1em;
+
+        a {
+          font-weight: var(--font-weight-900);
+          color: var(--color-brand-900);
+          cursor: pointer;
+        }
+      }
+    }
+  }
+}
