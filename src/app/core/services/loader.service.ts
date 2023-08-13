@@ -4,13 +4,13 @@ import { Injectable } from '@angular/core';
   providedIn: 'root',
 })
 export class LoaderService {
-  private loading: boolean = false;
+  private loadingStates: Map<any, boolean> = new Map<any, boolean>();
 
-  setLoading(loading: boolean) {
-    this.loading = loading;
+  setLoading(component: any, loading: boolean) {
+    this.loadingStates.set(component, loading);
   }
 
-  getLoading(): boolean {
-    return this.loading;
+  getLoading(component: any): boolean {
+    return this.loadingStates.get(component) || false;
   }
 }
