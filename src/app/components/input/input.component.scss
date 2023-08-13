@@ -8,6 +8,11 @@ textarea {
   width: inherit;
 }
 
+textarea {
+  min-height: 5em;
+  resize: vertical;
+}
+
 .input__field {
   display: grid;
   width: 100%;
