@@ -102,7 +102,7 @@ export class AuthComponent implements OnInit {
 
     this.loaderService.setLoading(false);
 
-    if (response.iSuccess) {
+    if (response.isSuccess) {
       this.routingService.redirectTo('/signin');
     }
   }
@@ -122,7 +122,7 @@ export class AuthComponent implements OnInit {
 
     this.loaderService.setLoading(false);
 
-    if (response.iSuccess) {
+    if (response.isSuccess) {
       this.localStorageService.setItem('currentUser', response.result);
 
       this.routingService.redirectTo('/');

@@ -31,7 +31,7 @@ export class AuthService {
 
     if (userFromDb.data) {
       return {
-        iSuccess: false,
+        isSuccess: false,
         message: `The ${user.username ? 'username' : 'email'} is already taken`,
       } satisfies SupabaseResponse;
     }
@@ -39,7 +39,7 @@ export class AuthService {
     await this.supabaseService.supabase.from('users').insert([user]);
 
     return {
-      iSuccess: true,
+      isSuccess: true,
       message: 'You are now registered!',
     } satisfies SupabaseResponse;
   }
@@ -61,14 +61,14 @@ export class AuthService {
 
     if (!userFromDb.data) {
       return {
-        iSuccess: false,
+        isSuccess: false,
         message: `Invalid username or password`,
       } satisfies SupabaseResponse;
     }
 
     if (userFromDb.data?.password !== user?.password) {
       return {
-        iSuccess: false,
+        isSuccess: false,
         message: `Invalid username or password`,
       } satisfies SupabaseResponse;
     }
@@ -76,7 +76,7 @@ export class AuthService {
     const { password, ...userWithoutPassword } = userFromDb.data;
 
     return {
-      iSuccess: true,
+      isSuccess: true,
       message: 'You are now login!',
       result: userWithoutPassword,
     } satisfies SupabaseResponse;

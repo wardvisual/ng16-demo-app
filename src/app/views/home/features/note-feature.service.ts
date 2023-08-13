@@ -23,13 +23,13 @@ export class NoteFeatureService {
 
     if (response.error) {
       return {
-        iSuccess: false,
+        isSuccess: false,
         message: response.error.message,
       } satisfies SupabaseResponse;
     }
 
     return {
-      iSuccess: true,
+      isSuccess: true,
       message: 'Note created!',
       result: response,
     } satisfies SupabaseResponse;
@@ -50,13 +50,13 @@ export class NoteFeatureService {
 
     if (response.error) {
       return {
-        iSuccess: false,
+        isSuccess: false,
         message: response.error.message,
       } satisfies SupabaseResponse;
     }
 
     return {
-      iSuccess: true,
+      isSuccess: true,
       message: 'Note retrieved!',
       result: response.data,
     } satisfies SupabaseResponse;
@@ -72,13 +72,13 @@ export class NoteFeatureService {
 
     if (response.error) {
       return {
-        iSuccess: false,
+        isSuccess: false,
         message: response.error.message,
       } satisfies SupabaseResponse;
     }
 
     return {
-      iSuccess: true,
+      isSuccess: true,
       message: 'Notes retrieved!',
       result: response.data,
     } satisfies SupabaseResponse;

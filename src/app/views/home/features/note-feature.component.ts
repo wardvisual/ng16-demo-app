@@ -68,17 +68,16 @@ export class NoteFeatureComponent implements OnInit {
     this.loaderService.setLoading(false);
 
     console.log(response);
-    // if (response.iSuccess) {
+    // if (response.isSuccess) {
     // }
   }
 
   onGetAllNotes(): void {
     this.loaderService.setLoading(true);
 
-    const { iSuccess, message, result }: SupabaseResponse =
-      this.noteService.getAllNotes();
+    const response: SupabaseResponse<Note> = this.noteService.getAllNotes();
 
-    if (!response.iSuccess) {
+    if (!response.isSuccess) {
       //error
     }
 
