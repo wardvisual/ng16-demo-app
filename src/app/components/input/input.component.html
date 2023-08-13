@@ -1,3 +1,12 @@
+<!-- Textarea -->
+<div *ngIf="type === 'textarea'" class="input__field" [formGroup]="formGroup">
+  <label [for]="name">{{ label }}</label>
+  <textarea [name]="name" formControlName="{{ formControlName }}"></textarea>
+  <p *ngIf="displayErrors()" class="input__field--error">
+    {{ displayErrors() }}
+  </p>
+</div>
+
 <!-- Text | Password | Email -->
 <div
   *ngIf="type === 'text' || type === 'password' || type === 'email'"
@@ -5,13 +14,8 @@
   [formGroup]="formGroup"
 >
   <label [for]="name">{{ label }}</label>
-  <input
-    [type]="type"
-    [name]="name"
-    [value]="value"
-    formControlName="{{ formControlName }}"
-  />
-  <ng-container *ngIf="displayErrors()" class="input__field--error">
-    <p>{{ displayErrors() }}</p>
-  </ng-container>
+  <input [type]="type" [name]="name" formControlName="{{ formControlName }}" />
+  <p *ngIf="displayErrors()" class="input__field--error">
+    {{ displayErrors() }}
+  </p>
 </div>
