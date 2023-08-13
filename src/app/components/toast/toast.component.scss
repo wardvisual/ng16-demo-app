@@ -1,0 +1,35 @@
+@import "src/app/styles/mixins.scss";
+
+.toast {
+  z-index: 99999;
+  position: fixed;
+  left: 0;
+  width: 100%;
+  padding: 1em;
+
+  @include sm {
+    width: auto;
+    max-width: 30.75rem;
+    top: 1em;
+    right: 1em;
+    left: unset;
+  }
+
+  &__content {
+    padding: 1em;
+    background: rgba(233, 234, 254, 0.88);
+    border-radius: var(--radius-5);
+    box-shadow: -2px 0px 27px 11px rgba(128, 130, 147, 0.14);
+
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 1em;
+  }
+
+  &__status {
+    transform: scale(2);
+    align-self: center;
+    padding: 1em;
+  }
+}

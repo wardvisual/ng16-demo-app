@@ -1,0 +1,14 @@
+<div *ngIf="isToastVisible" class="toast">
+  <div class="toast__content">
+    <span class="toast__status">
+      <i-tabler [name]="icon" />
+    </span>
+    <div class="toast__details">
+      <h6 class="toast__title">{{ isToastSuccess ? "Success" : "Error" }}</h6>
+      <p class="toast__description">
+        {{ toastMessage }}
+      </p>
+    </div>
+    <i-tabler name="x" (click)="hide()" class="toast__close cursor-pointer" />
+  </div>
+</div>
