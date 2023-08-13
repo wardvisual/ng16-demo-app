@@ -1,19 +1,23 @@
 <main class="home-component">
   <!-- Modal -->
   <app-modal
-    title="Modal"
+    title="New Note"
     [isOpen]="isModalOpen"
     (toggleModalEvent)="toggleModal()"
   >
-    <h3>Modal yarn</h3>
+    <app-new-note />
   </app-modal>
 
-  <button (click)="toggleModal()">test</button>
   <!-- Modal End -->
 
   <header>
     <img src="assets/logos/astronautaking-logo.svg" alt="astronautaking logo" />
-    <i-tabler name="logout" (click)="logout()" title="Logout" />
+    <i-tabler
+      name="logout"
+      class="cursor-pointer"
+      (click)="logout()"
+      title="Logout"
+    />
   </header>
 
   <section>
@@ -24,7 +28,13 @@
           <strong>{{ fullName }}</strong>
         </p>
       </div>
-      <app-button type="button" variant="primary" name="New Note" icon="plus" />
+      <app-button
+        type="button"
+        variant="primary"
+        name="New Note"
+        icon="plus"
+        (buttonClick)="toggleModal()"
+      />
     </header>
 
     <section class="notes">

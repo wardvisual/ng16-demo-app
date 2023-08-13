@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { FormGroup } from '@angular/forms';
 import { ModalService } from '@ng16-demoapp/components';
 
 import { LocalStorageService, RoutingService } from '@ng16-demoapp/services';
@@ -11,6 +12,9 @@ import { LocalStorageService, RoutingService } from '@ng16-demoapp/services';
 export class HomeComponent {
   toggleSidebar: boolean = true;
   isModalOpen: boolean = false;
+
+  newNoteForm: FormGroup;
+  isDisabled: boolean;
 
   notes: any = [
     {
