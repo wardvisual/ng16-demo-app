@@ -22,3 +22,13 @@
   align-items: center;
   gap: 0.5em;
 }
+
+.clickable {
+  cursor: pointer;
+
+  transition: all 0.3s !important;
+
+  &:active {
+    transform: scale(0.98) !important;
+  }
+}
