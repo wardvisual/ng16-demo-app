@@ -7,12 +7,10 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
 
-import { HomeComponent, AuthComponent } from '@ng16-demoapp/views';
+import { AuthComponent, NotesComponent } from '@ng16-demoapp/views';
 import { SignInComponent, SignUpComponent } from '@ng16-demoapp/views/auth';
-import {
-  NewNoteComponent,
-  NotestListingComponent,
-} from '@ng16-demoapp/views/home';
+
+import * as NotesComponents from '@ng16-demoapp/views/notes';
 
 import {
   ButtonComponent,
@@ -33,9 +31,7 @@ import { TruncatePipe } from '@ng16-demoapp/pipes';
     AppComponent,
     InputComponent,
     ButtonComponent,
-    HomeComponent,
-    NewNoteComponent,
-    NotestListingComponent,
+    NotesComponent,
     AuthComponent,
     SignInComponent,
     SignUpComponent,
@@ -43,6 +39,8 @@ import { TruncatePipe } from '@ng16-demoapp/pipes';
     ToastComponent,
     AuthLayoutComponent,
     MainLayoutComponent,
+    NotesComponents.NewNoteComponent,
+    NotesComponents.NotestListingComponent,
 
     // Pipes
     TruncatePipe,
