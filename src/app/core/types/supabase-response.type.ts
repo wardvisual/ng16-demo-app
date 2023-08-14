@@ -1,5 +1,5 @@
 export interface SupabaseResponse<T = any> {
   isSuccess: boolean;
   message: string;
-  result?: T[];
+  result?: T[] | T;
 }
