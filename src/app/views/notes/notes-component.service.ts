@@ -1,8 +1,7 @@
 import { Injectable } from '@angular/core';
 import { SupabaseService } from '@ng16-demoapp/services';
 
-import { SupabaseResponse } from '@ng16-demoapp/types';
-import { Note } from './types/note.type';
+import { Note, SupabaseResponse } from '@ng16-demoapp/types';
 
 @Injectable({
   providedIn: 'root',
@@ -19,7 +18,9 @@ export class NotesService {
   async createNewNote(note: Note): Promise<SupabaseResponse> {
     const response: any = await this.supabaseService.supabase
       .from('notes')
-      .insert([note]);
+      .insert([note])
+      .select('*')
+      .single();
 
     if (response.error) {
       return {
@@ -83,6 +84,49 @@ export class NotesService {
     return {
       isSuccess: true,
       message: 'Notes successfully retrieved!',
+      result: response.data,
+    } satisfies SupabaseResponse;
+  }
+
+  async updateNote(
+    note: Partial<Note> & { id: string }
+  ): Promise<SupabaseResponse> {
+    const response = await this.supabaseService.supabase
+      .from('notes')
+      .update(note)
+      .eq('id', note.id)
+      .select();
+
+    if (response.error) {
+      return {
+        isSuccess: false,
+        message: "Can't find note",
+      } satisfies SupabaseResponse;
+    }
+
+    return {
+      isSuccess: true,
+      message: 'Note successfully updated!',
+      result: response.data,
+    } satisfies SupabaseResponse;
+  }
+
+  async removeNote(id: string): Promise<SupabaseResponse> {
+    const response = await this.supabaseService.supabase
+      .from('notes')
+      .delete()
+      .eq('id', id);
+
+    if (response.error) {
+      return {
+        isSuccess: false,
+        message: "Can't delete note",
+      } satisfies SupabaseResponse;
+    }
+
+    return {
+      isSuccess: true,
+      message: 'Note successfully deleted!',
       result: response.data,
     } satisfies SupabaseResponse;
   }
