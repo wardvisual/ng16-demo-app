@@ -9,11 +9,7 @@
     <div class="form">
       <form [formGroup]="newNoteForm" (ngSubmit)="createNewNote($event)">
         <header>
-          <img
-            src="assets/logos/astronautaking-logo.svg"
-            alt="astronautaking logo"
-          />
-          <!-- <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit.</p> -->
+          <img src="assets/images/form-art.svg" alt="astronautaking logo" />
         </header>
 
         <section>
@@ -67,7 +63,7 @@
     <img src="assets/logos/astronautaking-logo.svg" alt="astronautaking logo" />
     <i-tabler
       name="logout"
-      class="cursor-pointer"
+      class="clickable"
       (click)="authService.logout()"
       title="Logout"
     />
