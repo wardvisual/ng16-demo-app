@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
 import { SignInComponent, SignUpComponent } from '@ng16-demoapp/views/auth';
-import { HomeComponent } from '@ng16-demoapp/views';
+import { NotesComponent } from '@ng16-demoapp/views';
 import {
   AuthLayoutComponent,
   MainLayoutComponent,
@@ -23,7 +23,7 @@ export const routes: Routes = [
         children: [
           {
             path: '',
-            component: HomeComponent,
+            component: NotesComponent,
           },
         ],
       },
