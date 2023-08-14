@@ -37,10 +37,17 @@
       </h6>
 
       <div class="view-note__body">
-        <p>
-          <i-tabler name="calendar" class="opacity-50" />
-          <span>{{ selectedNote.createdAt | date : "MM/dd/yyyy" }}</span>
-        </p>
+        <div class="view-note__control">
+          <p>
+            <i-tabler name="calendar" class="opacity-50" />
+            <span>{{ selectedNote.createdAt | date : "MM/dd/yyyy" }}</span>
+          </p>
+          |
+          <div>
+            <i-tabler name="edit" class="opacity-50 clickable" />
+            <i-tabler name="trash" class="opacity-50 clickable" />
+          </div>
+        </div>
         <p>{{ selectedNote.content }}</p>
       </div>
     </div>

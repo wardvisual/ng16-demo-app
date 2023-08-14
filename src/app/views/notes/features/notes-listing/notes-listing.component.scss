@@ -55,19 +55,31 @@
 }
 
 .view-note {
-  h6 {
-    margin-bottom: 0.8em;
+  display: grid;
+  grid-gap: 1em;
+
+  width: 80vw;
+
+  @include sm {
+    min-width: 30em;
+    max-width: 40em;
   }
 
   &__body {
-    p:first-child {
+    display: grid;
+    grid-gap: 1em;
+  }
+
+  &__control {
+    display: flex;
+    align-items: center;
+    gap: 1em;
+
+    p,
+    div {
       display: flex;
       align-items: center;
-      gap: 1em;
-    }
-
-    p:last-child {
-      margin-top: 1em;
+      gap: 0.4em;
     }
   }
 }
