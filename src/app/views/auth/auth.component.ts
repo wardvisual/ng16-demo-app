@@ -2,9 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { FormControl, Validators } from '@angular/forms';
 
-import { AuthService } from './auth.service';
-import { SignUp, SignIn } from './types/auth.types';
+import { SignUp, SignIn } from '@ng16-demoapp/types';
 import {
+  AuthService,
   LoaderService,
   LocalStorageService,
   RoutingService,
