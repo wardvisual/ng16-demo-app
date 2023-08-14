@@ -32,8 +32,8 @@ export class NotesService {
     return {
       isSuccess: true,
       message: 'Note successfully created!',
-      result: response,
-    } satisfies SupabaseResponse;
+      result: response.data,
+    } satisfies SupabaseResponse<Note>;
   }
 
   /**
