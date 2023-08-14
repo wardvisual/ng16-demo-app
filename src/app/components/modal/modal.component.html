@@ -1,6 +1,6 @@
 <div
   class="modal-overlay"
-  [ngClass]="{ open: isOpen$ | async }"
+  [ngClass]="{ open: modalService.getModal(name) }"
   (click)="toggleModalFromOverlay($event)"
 >
   <div class="modal">
@@ -8,7 +8,7 @@
       <h6>{{ title }}</h6>
       <i-tabler
         name="x"
-        (click)="modalService.toggleModal()"
+        (click)="modalService.toggleModal(name, modalState)"
         class="cursor-pointer"
       />
     </div>

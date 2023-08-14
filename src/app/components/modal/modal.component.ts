@@ -16,21 +16,25 @@ import { ModalService } from './modal.service';
   encapsulation: ViewEncapsulation.None,
 })
 export class ModalComponent implements OnInit {
+  modalState: boolean;
+
   @Input() title: string;
-
+  @Input() name: string;
   @Output() toggleModalEvent = new EventEmitter();
-
-  isOpen$: Observable<boolean>;
 
   constructor(public modalService: ModalService) {}
 
   ngOnInit(): void {
-    this.isOpen$ = this.modalService.isOpen$;
+    this.modalState = this.modalService.getModal(this.name);
+    console.log({
+      modalState: this.modalState,
+      name: this.modalService.getModal(this.name),
+    });
   }
 
   toggleModalFromOverlay(event?: MouseEvent): void {
     if (event.target === event.currentTarget) {
-      this.toggleModalEvent.emit();
+      this.modalService.toggleModal(this.name, false);
     }
   }
 }

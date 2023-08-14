@@ -1,16 +1,20 @@
-import { Injectable } from '@angular/core';
-import { BehaviorSubject } from 'rxjs';
+import { Injectable, signal } from '@angular/core';
 
 @Injectable({
   providedIn: 'root',
 })
 export class ModalService {
-  private toggleModalStateSubject = new BehaviorSubject<boolean>(false);
-  public isOpen$ = this.toggleModalStateSubject.asObservable();
+  modalState = signal<Map<string, boolean>>(new Map<string, boolean>());
 
   constructor() {}
 
-  toggleModal(): void {
-    this.toggleModalStateSubject.next(!this.toggleModalStateSubject.value);
+  toggleModal(name: string, state: boolean): void {
+    this.modalState.mutate((modal) => {
+      return modal.set(name, state);
+    });
+  }
+
+  getModal(name: string) {
+    return this.modalState().get(name);
   }
 }
