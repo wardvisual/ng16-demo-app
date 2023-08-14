@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, Signal, computed } from '@angular/core';
+import { Component, Input, OnInit, Signal } from '@angular/core';
 import { ModalService } from '@ng16-demoapp/components';
 import { Note } from '@ng16-demoapp/types';
 
@@ -20,6 +20,7 @@ export class NotestListingComponent implements OnInit {
 
   toggleViewNote(note: Note) {
     this.selectedNote = note;
+
     this.callback(note);
 
     this.modalService.toggleModal(note.id, true);
