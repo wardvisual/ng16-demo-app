@@ -1,0 +1,45 @@
+<div class="form">
+  <form [formGroup]="newNoteForm" (ngSubmit)="onCreateNewNote($event)">
+    <header>
+      <h2>Create a new Note</h2>
+      <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit.</p>
+    </header>
+
+    <section>
+      <div class="flex-items-center">
+        <i-tabler name="calendar" class="opacity-50" />
+        <p>{{ newNoteForm.get("createdAt").value | date : "dd/MM/yyyy" }}</p>
+      </div>
+
+      <app-input
+        type="text"
+        name="title"
+        label="Title"
+        [required]="true"
+        [formGroup]="newNoteForm"
+        formControlName="title"
+        (validationStatusChange)="onValidationStatusChange($event)"
+        ngDefaultControl
+      ></app-input>
+
+      <app-input
+        type="textarea"
+        name="content"
+        label="Note"
+        [required]="true"
+        [formGroup]="newNoteForm"
+        formControlName="content"
+        (validationStatusChange)="onValidationStatusChange($event)"
+        ngDefaultControl
+      ></app-input>
+    </section>
+    <footer>
+      <app-button
+        type="submit"
+        variant="primary"
+        [name]="loaderService.getLoading(this) ? 'Creating...' : 'Create Note'"
+        [isDisabled]="isDisabled || loaderService.getLoading(this)"
+      ></app-button>
+    </footer>
+  </form>
+</div>

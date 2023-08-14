@@ -1,0 +1,60 @@
+@import "src/app/styles/mixins.scss";
+
+.notes {
+  display: grid;
+  grid-gap: 2em;
+
+  &__header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 1em;
+
+    /* Logo */
+    img {
+      max-width: 25%;
+      min-width: 14em;
+    }
+  }
+
+  &__body {
+    padding-top: 1.2em;
+    display: grid;
+    grid-gap: 2em;
+
+    .body-header {
+      border-top: 1px var(--color-neutral-100) solid;
+      border-bottom: 1px var(--color-neutral-100) solid;
+      padding: 1em 0 1em 0;
+
+      .user {
+        display: flex;
+        align-items: center;
+        gap: 0.6em;
+
+        > div {
+          p {
+            display: flex;
+            flex-wrap: wrap;
+            font-size: clamp(18px, calc(0.8vw + 1rem), 36px);
+          }
+          // p:last-child {
+          //   margin-top: -0.5em;
+          //   font-size: 14px;
+          //   color: var(--color-neutral-400);
+          // }
+        }
+
+        @include sm {
+          i-tabler {
+            transform: scale(1.6);
+          }
+          p {
+            font-size: clamp(17px, calc(0.5vw + 1rem), 24px);
+          }
+        }
+      }
+    }
+  }
+}

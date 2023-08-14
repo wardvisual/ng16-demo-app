@@ -1,0 +1,46 @@
+<main class="notes">
+  <!-- Modal -->
+  <app-modal
+    title="New Note"
+    [isOpen]="isModalOpen"
+    (toggleModalEvent)="toggleModal()"
+  >
+    <app-new-note [notesComponent]="this" />
+  </app-modal>
+  <!-- Modal End -->
+
+  <header class="notes__header">
+    <img src="assets/logos/astronautaking-logo.svg" alt="astronautaking logo" />
+    <i-tabler
+      name="logout"
+      class="cursor-pointer"
+      (click)="authService.logout()"
+      title="Logout"
+    />
+  </header>
+
+  <section class="notes__body">
+    <header class="notes__header body-header">
+      <div class="user">
+        <!-- <i-tabler name="user" title="You" /> -->
+
+        <div>
+          <p>
+            <span>👋 Welcome back, &nbsp;</span>
+            <strong>{{ user.firstName }}!</strong>
+          </p>
+          <!-- <p>{{ user.emailAddress }}</p> -->
+        </div>
+      </div>
+      <app-button
+        type="button"
+        variant="primary"
+        name="New Note"
+        icon="plus"
+        (buttonClick)="toggleModal()"
+      />
+    </header>
+
+    <app-notes-listing [notes]="notes" />
+  </section>
+</main>
