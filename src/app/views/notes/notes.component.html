@@ -1,14 +1,68 @@
 <main class="notes">
-  <!-- Modal -->
+  <!-- New Note Modal -->
   <app-modal
     title="New Note"
-    [isOpen]="isModalOpen"
-    (toggleModalEvent)="toggleModal()"
+    [isOpen]="modalService.getModal('newNote')"
+    name="newNote"
   >
-    <app-new-note [notesComponent]="this" />
-  </app-modal>
-  <!-- Modal End -->
+    <!-- Create new note form -->
+    <div class="form">
+      <form [formGroup]="newNoteForm" (ngSubmit)="createNewNote($event)">
+        <header>
+          <img
+            src="assets/logos/astronautaking-logo.svg"
+            alt="astronautaking logo"
+          />
+          <!-- <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit.</p> -->
+        </header>
 
+        <section>
+          <div class="flex-items-center">
+            <i-tabler name="calendar" class="opacity-50" />
+            <p>
+              {{ newNoteForm.get("createdAt").value | date : "dd/MM/yyyy" }}
+            </p>
+          </div>
+
+          <app-input
+            type="text"
+            name="title"
+            label="Title"
+            [required]="true"
+            [formGroup]="newNoteForm"
+            formControlName="title"
+            (validationStatusChange)="onValidationStatusChange($event)"
+            ngDefaultControl
+          ></app-input>
+
+          <app-input
+            type="textarea"
+            name="content"
+            label="Note"
+            [required]="true"
+            [formGroup]="newNoteForm"
+            formControlName="content"
+            (validationStatusChange)="onValidationStatusChange($event)"
+            ngDefaultControl
+          ></app-input>
+        </section>
+        <footer>
+          <app-button
+            type="submit"
+            variant="primary"
+            [name]="
+              loaderService.getLoading(this) ? 'Creating...' : 'Create Note'
+            "
+            [isDisabled]="isDisabled || loaderService.getLoading(this)"
+          ></app-button>
+        </footer>
+      </form>
+    </div>
+    <!-- Create new note form end -->
+  </app-modal>
+  <!-- View Modal End -->
+
+  <!-- Header Component -->
   <header class="notes__header">
     <img src="assets/logos/astronautaking-logo.svg" alt="astronautaking logo" />
     <i-tabler
@@ -18,18 +72,17 @@
       title="Logout"
     />
   </header>
+  <!-- Header Component End -->
 
+  <!-- Section Component -->
   <section class="notes__body">
     <header class="notes__header body-header">
       <div class="user">
-        <!-- <i-tabler name="user" title="You" /> -->
-
         <div>
           <p>
             <span>👋 Welcome back, &nbsp;</span>
             <strong>{{ user.firstName }}!</strong>
           </p>
-          <!-- <p>{{ user.emailAddress }}</p> -->
         </div>
       </div>
       <app-button
@@ -37,10 +90,23 @@
         variant="primary"
         name="New Note"
         icon="plus"
-        (buttonClick)="toggleModal()"
+        (buttonClick)="modalService.toggleModal('newNote', true)"
       />
     </header>
 
-    <app-notes-listing [notes]="notes" />
+    <ng-container *ngIf="notes()?.length > 0; else loading">
+      <!-- Notes Listing Component -->
+      <app-notes-listing
+        [notes]="notes"
+        [callback]="updateNote"
+        [callback]="removeNote"
+      ></app-notes-listing>
+      <!-- Notes Listing Component End -->
+    </ng-container>
+
+    <ng-template #loading>
+      <div>Loading...</div>
+    </ng-template>
   </section>
+  <!-- Section Component End -->
 </main>
