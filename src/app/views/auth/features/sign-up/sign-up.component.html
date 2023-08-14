@@ -1,0 +1,77 @@
+<form [formGroup]="signUpForm" (ngSubmit)="onSignUp($event)">
+  <header>
+    <h2>Welcome abroad!</h2>
+    <p>
+      Join the Astronautaking community and take your note-taking to the next
+      level!
+    </p>
+  </header>
+
+  <section>
+    <div class="col-md">
+      <app-input
+        type="text"
+        name="firstName"
+        label="First Name"
+        [required]="true"
+        [formGroup]="signUpForm"
+        formControlName="firstName"
+        (validationStatusChange)="onValidationStatusChange($event)"
+        ngDefaultControl
+      ></app-input>
+
+      <app-input
+        type="text"
+        name="lastName"
+        label="Last Name"
+        [required]="true"
+        [formGroup]="signUpForm"
+        formControlName="lastName"
+        (validationStatusChange)="onValidationStatusChange($event)"
+        ngDefaultControl
+      ></app-input>
+    </div>
+
+    <app-input
+      type="text"
+      name="username"
+      label="Username"
+      [required]="true"
+      [formGroup]="signUpForm"
+      formControlName="username"
+      (validationStatusChange)="onValidationStatusChange($event)"
+      ngDefaultControl
+    ></app-input>
+
+    <app-input
+      type="email"
+      name="emailAddress"
+      label="Email Address"
+      [required]="true"
+      [formGroup]="signUpForm"
+      formControlName="emailAddress"
+      (validationStatusChange)="onValidationStatusChange($event)"
+      ngDefaultControl
+    ></app-input>
+
+    <app-input
+      type="password"
+      name="password"
+      label="Password"
+      [required]="true"
+      [formGroup]="signUpForm"
+      formControlName="password"
+      (validationStatusChange)="onValidationStatusChange($event)"
+      ngDefaultControl
+    ></app-input>
+  </section>
+  <footer>
+    <app-button
+      type="submit"
+      variant="primary"
+      [name]="loaderService.getLoading(this) ? 'Signing Up...' : 'Sign Up'"
+      [isDisabled]="isDisabled || loaderService.getLoading(this)"
+    ></app-button>
+    <p>Already have an account? <a routerLink="/signin">Sign In</a></p>
+  </footer>
+</form>
