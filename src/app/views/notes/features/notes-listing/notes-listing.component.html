@@ -1,8 +1,13 @@
 <section class="notes">
   <h4>Personal Notes</h4>
 
+  <!-- Notes Listing Component -->
   <div class="notes__lists">
-    <div *ngFor="let note of notes()" [ngValue]="note">
+    <div
+      *ngFor="let note of notes()"
+      [ngValue]="note"
+      (click)="toggleViewNote(note)"
+    >
       <div class="notes__item">
         <h6>
           {{ note.title | truncate : 20 }}
@@ -17,4 +22,27 @@
       </div>
     </div>
   </div>
+  <!-- Notes Listing Component End -->
+
+  <!-- Modal - View Note Component Start-->
+  <app-modal
+    *ngIf="selectedNote?.id"
+    title="Your Note"
+    [isOpen]="modalService.getModal(selectedNote.id)"
+    [name]="selectedNote.id"
+  >
+    <div>
+      <h6>
+        {{ selectedNote.title }}
+      </h6>
+      <div>
+        <p>
+          <i-tabler name="calendar" class="opacity-50" />
+          <span>{{ selectedNote.createdAt | date : "MM/dd/yyyy" }}</span>
+        </p>
+        <p>{{ selectedNote.content }}</p>
+      </div>
+    </div>
+  </app-modal>
+  <!-- Modal - View Note Component End-->
 </section>
