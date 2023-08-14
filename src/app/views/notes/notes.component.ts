@@ -19,18 +19,12 @@ import { CreateNote, Note } from '@ng16-demoapp/types';
   styleUrls: ['./notes.component.scss'],
 })
 export class NotesComponent implements OnInit {
-  toggleSidebar: boolean = true;
-  isModalOpen: boolean = false;
+  toggleSidebar: boolean;
+  isModalOpen: boolean;
   newNoteForm: FormGroup;
-  isDisabled: boolean;
+  isButtonDisabled: boolean;
 
   notes = signal<Note[]>([]);
-
-  previousNotesLength: number = 0;
-
-  notesList = computed(() => {
-    return this.notes().length;
-  });
 
   constructor(
     protected noteService: NotesService,
@@ -52,17 +46,10 @@ export class NotesComponent implements OnInit {
     this.getAllNotes();
     this.createNewNoteForm();
 
-    this.isDisabled = true;
-
-    computed(() => {
-      const notesLength = this.notes().length;
-
-      if (notesLength > this.previousNotesLength) {
-        this.notes.mutate((state) => state.push(this.notes().slice(-1)[0]));
-
-        this.previousNotesLength = notesLength;
-      }
-    });
+    /* Initialize attributes values */
+    this.isButtonDisabled = true;
+    this.isModalOpen = false;
+    this.toggleSidebar = true;
   }
 
   /**
@@ -71,7 +58,7 @@ export class NotesComponent implements OnInit {
    * @param {boolean} status - The new validation status.
    */
   onValidationStatusChange(status: boolean) {
-    this.isDisabled = !status;
+    this.isButtonDisabled = !status;
   }
 
   /**
@@ -116,8 +103,7 @@ export class NotesComponent implements OnInit {
 
     if (!response.isSuccess) return;
 
-    this.notes.mutate((notes) => notes.push(note));
-    this.previousNotesLength++;
+    this.notes.mutate((notes) => notes.push(response.result));
 
     this.modalService.toggleModal('newNote', false);
     this.loaderService.setLoading('newNote', false);
