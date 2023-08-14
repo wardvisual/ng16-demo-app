@@ -27,15 +27,16 @@
   <!-- Modal - View Note Component Start-->
   <app-modal
     *ngIf="selectedNote?.id"
-    title="Your Note"
+    title="My Note"
     [isOpen]="modalService.getModal(selectedNote.id)"
     [name]="selectedNote.id"
   >
-    <div>
+    <div class="view-note">
       <h6>
         {{ selectedNote.title }}
       </h6>
-      <div>
+
+      <div class="view-note__body">
         <p>
           <i-tabler name="calendar" class="opacity-50" />
           <span>{{ selectedNote.createdAt | date : "MM/dd/yyyy" }}</span>
