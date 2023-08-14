@@ -1,17 +1,17 @@
-import { Component, OnInit, computed, signal } from '@angular/core';
+import { Component, OnInit, Signal, computed, signal } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { FormControl, Validators } from '@angular/forms';
-
-import { Note } from './types/note.type';
 
 import {
   AuthService,
   LoaderService,
   LocalStorageService,
   RoutingService,
+  DateService,
 } from '@ng16-demoapp/services';
 import { NotesService } from './notes-component.service';
 import { ModalService, ToastService } from '@ng16-demoapp/components';
+import { CreateNote, Note } from '@ng16-demoapp/types';
 
 @Component({
   selector: 'app-notes',
@@ -24,9 +24,9 @@ export class NotesComponent implements OnInit {
   newNoteForm: FormGroup;
   isDisabled: boolean;
 
-  newlyCreatedNote: Note;
-
   notes = signal<Note[]>([]);
+
+  previousNotesLength: number = 0;
 
   notesList = computed(() => {
     return this.notes().length;
@@ -39,16 +39,37 @@ export class NotesComponent implements OnInit {
     protected routingService: RoutingService,
     protected toastService: ToastService,
     protected modalService: ModalService,
-    protected authService: AuthService
+    protected authService: AuthService,
+    protected dateService: DateService
   ) {}
 
+  /**
+   * Initializes the component and performs necessary setup actions.
+   *
+   * @return {void} This function does not return anything.
+   */
   ngOnInit(): void {
-    this.onGetAllNotes();
+    this.getAllNotes();
     this.createNewNoteForm();
 
     this.isDisabled = true;
+
+    computed(() => {
+      const notesLength = this.notes().length;
+
+      if (notesLength > this.previousNotesLength) {
+        this.notes.mutate((state) => state.push(this.notes().slice(-1)[0]));
+
+        this.previousNotesLength = notesLength;
+      }
+    });
   }
 
+  /**
+   * Updates the disabled status based on the validation status.
+   *
+   * @param {boolean} status - The new validation status.
+   */
   onValidationStatusChange(status: boolean) {
     this.isDisabled = !status;
   }
@@ -59,8 +80,9 @@ export class NotesComponent implements OnInit {
    * @return {void}
    */
   createNewNoteForm(): void {
-    const currentDate = new Date();
-    this.newNoteForm = new FormGroup<Note>({
+    const currentDate = this.dateService.getCurrentDateTime();
+
+    this.newNoteForm = new FormGroup<CreateNote>({
       content: new FormControl('', Validators.required),
       title: new FormControl('', Validators.required),
       createdAt: new FormControl(currentDate.toISOString()),
@@ -69,66 +91,69 @@ export class NotesComponent implements OnInit {
   }
 
   /**
-   * Creates a new note when an event is triggered.
+   * Creates a new note
    *
    * @param {Event} event - The event object.
    * @return {Promise<void>} A promise that resolves when the note is created.
    */
-  async onCreateNewNote(event: Event): Promise<void> {
+  async createNewNote(event: Event): Promise<void> {
     event.preventDefault();
 
-    this.loaderService.setLoading(this, true);
+    this.loaderService.setLoading('newNote', true);
 
-    const newNote: Note = {
-      userId: this.user.id,
-      createdAt: Date.now(),
+    const { id } = this.user;
+    const createdAt = this.dateService.getCurrentDateTime();
+
+    const note = {
+      userId: id,
+      createdAt,
       ...this.newNoteForm.value,
     };
 
-    const response: any = await this.noteService.createNewNote(newNote);
-    console.log({ response, newNote });
+    const response = await this.noteService.createNewNote(note);
 
-    if (response.isSuccess) {
-      this.notes.mutate((notes: any) => {
-        notes.push(newNote);
-      });
+    this.toastService.openToast(response.isSuccess, response.message);
 
-      this.toastService.openToast(response.isSuccess, response.message);
-      this.modalService.toggleModal();
-      this.newNoteForm.reset();
-    }
+    if (!response.isSuccess) return;
 
-    this.loaderService.setLoading(this, false);
+    this.notes.mutate((notes) => notes.push(note));
+    this.previousNotesLength++;
+
+    this.modalService.toggleModal('newNote', false);
+    this.loaderService.setLoading('newNote', false);
+    this.newNoteForm.reset();
   }
 
-  async onGetAllNotes(): Promise<void | Note[]> {
-    this.loaderService.setLoading(this, true);
+  /**
+   * Retrieves all notes from the service.
+   *
+   * @return {Promise<void | Note[]>} A promise that resolves with an array of notes or void if there was an error.
+   */
+  async getAllNotes(): Promise<Note[]> {
+    this.loaderService.setLoading('getNotes', true);
 
-    const response: any = await this.noteService.getAllNotes(this.user.id);
+    const response = await this.noteService.getAllNotes(this.user.id);
 
-    if (!response.isSuccess) {
-      this.toastService.openToast(response.isSuccess, response.message);
-      return;
-    }
+    this.toastService.openToast(response.isSuccess, response.message);
 
-    console.log({ response });
+    if (!response.isSuccess) return [];
+
+    // this.previousNotesLength = this.notes().length;
 
     this.notes.mutate((notes) => {
-      for (const note of response.result) {
-        notes.push(note);
-      }
+      notes.push(...response.result);
     });
 
-    console.log({ all: this.notes() });
-
-    this.loaderService.setLoading(this, false);
+    this.loaderService.setLoading('getNotes', false);
 
     return response.result;
   }
 
-  toggleModal() {
-    this.modalService.toggleModal();
+  updateNote(note: Note) {
+    const response = this.noteService.updateNote(note);
   }
+
+  removeNote({ id }: Note) {}
 
   get user() {
     return this.authService.user;
