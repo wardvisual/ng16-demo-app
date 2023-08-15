@@ -1,6 +1,8 @@
 import { Component, Input, OnInit, Signal, signal } from '@angular/core';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ModalService } from '@ng16-demoapp/components';
-import { Note } from '@ng16-demoapp/types';
+import { LoaderService, NotesService } from '@ng16-demoapp/services';
+import { Note, UpdateNote } from '@ng16-demoapp/types';
 
 @Component({
   selector: 'app-update-note',
@@ -8,18 +10,11 @@ import { Note } from '@ng16-demoapp/types';
   styleUrls: ['./update-note.component.scss'],
 })
 export class UpdateNoteComponent implements OnInit {
-  @Input() note: Note;
-  @Input() _updateNote: () => void;
+  constructor(
+    public modalService: ModalService,
+    public notesService: NotesService,
+    public loaderService: LoaderService
+  ) {}
 
-  constructor(protected modalService: ModalService) {}
-
-  ngOnInit(): void {
-    console.log({ updated: this.note });
-  }
-
-  toggleUpdate(note: Partial<Note>) {
-    // this.note.mutate((_note) => ({ ..._note, ...note }));
-    console.log({ hi: 3423 });
-    this._updateNote();
-  }
+  ngOnInit(): void {}
 }
