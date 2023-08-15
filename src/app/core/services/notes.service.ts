@@ -15,10 +15,9 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 @Injectable({
   providedIn: 'root',
 })
-export class NotesService implements OnInit {
+export class NotesService {
   updateNoteForm: FormGroup<UpdateNote>;
   newNoteForm: FormGroup<CreateNote>;
-
   isButtonDisabled: boolean = true;
   notes = signal<Note[]>([]);
   note: Note;
@@ -32,8 +31,11 @@ export class NotesService implements OnInit {
     private modalService: ModalService
   ) {}
 
-  ngOnInit(): void {}
-
+  /**
+   * Creates an update note form.
+   *
+   * @return {void} - Does not return anything.
+   */
   createUpdateNoteForm(): void {
     this.updateNoteForm = new FormGroup<UpdateNote>({
       title: new FormControl(''),
@@ -41,6 +43,11 @@ export class NotesService implements OnInit {
     });
   }
 
+  /**
+   * Creates a new note form.
+   *
+   * @return {void} This function does not return a value.
+   */
   createNewNoteForm(): void {
     const currentDate = this.dateService.getCurrentDateTime();
 
@@ -52,6 +59,13 @@ export class NotesService implements OnInit {
     });
   }
 
+  /**
+   * Creates a new note.
+   *
+   * @param {Event} event - The event that triggered the creation of the note.
+   * @param {FormGroup} note - The form group containing the note data.
+   * @return {Promise<void>} A promise that resolves when the note is created.
+   */
   async createNewNote(event: Event, note: FormGroup): Promise<void> {
     event.preventDefault();
 
@@ -86,23 +100,11 @@ export class NotesService implements OnInit {
     // note.reset();
   }
 
-  async viewSingleNote(id: string): Promise<void> {
-    const response = await this.supabaseService.supabase
-      .from('notes')
-      .select()
-      .eq('id', id)
-      .single();
-
-    if (response.error) {
-      this.toastService.openToast(false, "Can't find note");
-      return;
-    }
-
-    this.note = response.data;
-
-    this.toastService.openToast(false, 'Notes successfully retrieved!');
-  }
-
+  /**
+   * Retrieves all notes for the user.
+   *
+   * @return {Promise<void>} A Promise that resolves when the notes are retrieved.
+   */
   async getAllNotes(): Promise<void> {
     this.loaderService.setLoading('getNotes', true);
 
@@ -127,6 +129,13 @@ export class NotesService implements OnInit {
     this.toastService.openToast(true, 'Notes successfully retrieved!');
   }
 
+  /**
+   * Updates a note asynchronously.
+   *
+   * @param {Event} event - the event that triggered the update
+   * @param {FormGroup<UpdateNote>} note - the form group containing the updated note
+   * @return {Promise<void>} a promise that resolves when the note is successfully updated
+   */
   async updateNote(event: Event, note: FormGroup<UpdateNote>): Promise<void> {
     event.preventDefault();
 
@@ -154,6 +163,12 @@ export class NotesService implements OnInit {
     this.loaderService.setLoading('updateNote', false);
   }
 
+  /**
+   * Removes a note with the specified ID.
+   *
+   * @param {string} id - The ID of the note to be removed.
+   * @return {Promise<void>} - A promise that resolves when the note is successfully removed.
+   */
   async removeNote(id: string): Promise<void> {
     this.loaderService.setLoading(`deleteNote`, true);
 
