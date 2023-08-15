@@ -23,4 +23,4 @@ This project is licensed under the `LICENSE`.
 
 ## Contact
 
-[Edward Fernadnez](https://wardvisual.me/)
+[Edward Fernandez](https://wardvisual.me/)
