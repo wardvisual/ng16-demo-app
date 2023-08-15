@@ -1,4 +1,4 @@
-<ng-container *ngIf="notesService.notes().length > 0; else loading">
+<ng-container *ngIf="notesService.notes().length > 0; else noNotes">
   <section class="notes">
     <h4>Personal Notes</h4>
 
@@ -30,8 +30,10 @@
   </section>
 </ng-container>
 
-<ng-template #loading>
-  <div>Loading...</div>
+<ng-template #noNotes>
+  <ng-container *ngIf="notesService.notes().length === 0">
+    <p>You don't have any notes yet.</p>
+  </ng-container>
 </ng-template>
 
 <!-- Modal - View Note Component Start -->
