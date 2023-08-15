@@ -1,4 +1,7 @@
-<form [formGroup]="signUpForm" (ngSubmit)="onSignUp($event)">
+<form
+  [formGroup]="authService.signUpForm"
+  (ngSubmit)="authService.register($event)"
+>
   <header>
     <h2>Welcome abroad!</h2>
     <p>
@@ -14,9 +17,9 @@
         name="firstName"
         label="First Name"
         [required]="true"
-        [formGroup]="signUpForm"
+        [formGroup]="authService.signUpForm"
         formControlName="firstName"
-        (validationStatusChange)="onValidationStatusChange($event)"
+        (validationStatusChange)="authService.onValidationStatusChange($event)"
         ngDefaultControl
       ></app-input>
 
@@ -25,9 +28,9 @@
         name="lastName"
         label="Last Name"
         [required]="true"
-        [formGroup]="signUpForm"
+        [formGroup]="authService.signUpForm"
         formControlName="lastName"
-        (validationStatusChange)="onValidationStatusChange($event)"
+        (validationStatusChange)="authService.onValidationStatusChange($event)"
         ngDefaultControl
       ></app-input>
     </div>
@@ -37,9 +40,9 @@
       name="username"
       label="Username"
       [required]="true"
-      [formGroup]="signUpForm"
+      [formGroup]="authService.signUpForm"
       formControlName="username"
-      (validationStatusChange)="onValidationStatusChange($event)"
+      (validationStatusChange)="authService.onValidationStatusChange($event)"
       ngDefaultControl
     ></app-input>
 
@@ -48,9 +51,9 @@
       name="emailAddress"
       label="Email Address"
       [required]="true"
-      [formGroup]="signUpForm"
+      [formGroup]="authService.signUpForm"
       formControlName="emailAddress"
-      (validationStatusChange)="onValidationStatusChange($event)"
+      (validationStatusChange)="authService.onValidationStatusChange($event)"
       ngDefaultControl
     ></app-input>
 
@@ -59,9 +62,9 @@
       name="password"
       label="Password"
       [required]="true"
-      [formGroup]="signUpForm"
+      [formGroup]="authService.signUpForm"
       formControlName="password"
-      (validationStatusChange)="onValidationStatusChange($event)"
+      (validationStatusChange)="authService.onValidationStatusChange($event)"
       ngDefaultControl
     ></app-input>
   </section>
@@ -69,8 +72,12 @@
     <app-button
       type="submit"
       variant="primary"
-      [name]="loaderService.getLoading(this) ? 'Signing Up...' : 'Sign Up'"
-      [isDisabled]="isDisabled || loaderService.getLoading(this)"
+      [name]="
+        loaderService.getLoading('register') ? 'Signing Up...' : 'Sign Up'
+      "
+      [isDisabled]="
+        authService.isButtonDisabled || loaderService.getLoading('register')
+      "
     ></app-button>
     <p>Already have an account? <a routerLink="/signin">Sign In</a></p>
   </footer>
