@@ -1,63 +1,4 @@
 <main class="notes">
-  <!-- New Note Modal -->
-  <app-modal
-    title="New Note"
-    [isOpen]="modalService.getModal('newNote')"
-    name="newNote"
-  >
-    <!-- Create new note form -->
-    <div class="form">
-      <form [formGroup]="newNoteForm" (ngSubmit)="createNewNote($event)">
-        <header>
-          <img src="assets/images/form-art.svg" alt="astronautaking logo" />
-        </header>
-
-        <section>
-          <div class="flex-items-center">
-            <i-tabler name="calendar" class="opacity-50" />
-            <p>
-              {{ newNoteForm.get("createdAt").value | date : "dd/MM/yyyy" }}
-            </p>
-          </div>
-
-          <app-input
-            type="text"
-            name="title"
-            label="Title"
-            [required]="true"
-            [formGroup]="newNoteForm"
-            formControlName="title"
-            (validationStatusChange)="onValidationStatusChange($event)"
-            ngDefaultControl
-          ></app-input>
-
-          <app-input
-            type="textarea"
-            name="content"
-            label="Note"
-            [required]="true"
-            [formGroup]="newNoteForm"
-            formControlName="content"
-            (validationStatusChange)="onValidationStatusChange($event)"
-            ngDefaultControl
-          ></app-input>
-        </section>
-        <footer>
-          <app-button
-            type="submit"
-            variant="primary"
-            [name]="
-              loaderService.getLoading(this) ? 'Creating...' : 'Create Note'
-            "
-            [isDisabled]="isButtonDisabled || loaderService.getLoading(this)"
-          ></app-button>
-        </footer>
-      </form>
-    </div>
-    <!-- Create new note form end -->
-  </app-modal>
-  <!-- View Modal End -->
-
   <!-- Header Component -->
   <header class="notes__header">
     <img src="assets/logos/astronautaking-logo.svg" alt="astronautaking logo" />
@@ -72,12 +13,13 @@
 
   <!-- Section Component -->
   <section class="notes__body">
+    <!-- Header Component Start -->
     <header class="notes__header body-header">
       <div class="user">
         <div>
           <p>
             <span>👋 Welcome back, &nbsp;</span>
-            <strong>{{ user.firstName }}!</strong>
+            <strong>{{ authService.user.firstName }}!</strong>
           </p>
         </div>
       </div>
@@ -89,20 +31,14 @@
         (buttonClick)="modalService.toggleModal('newNote', true)"
       />
     </header>
+    <!-- Header Component End -->
 
-    <ng-container *ngIf="notes()?.length > 0; else loading">
-      <!-- Notes Listing Component -->
-      <app-notes-listing
-        [notes]="notes"
-        [callback]="updateNote"
-        [callback]="removeNote"
-      ></app-notes-listing>
-      <!-- Notes Listing Component End -->
-    </ng-container>
-
-    <ng-template #loading>
-      <div>Loading...</div>
-    </ng-template>
+    <!-- Features Components Start -->
+    <app-notes-listing />
+    <app-create-note />
+    <app-update-note />
+    <app-remove-note />
+    <!-- Features Components End -->
   </section>
   <!-- Section Component End -->
 </main>
