@@ -151,7 +151,7 @@ export class NotesService {
 
     this.notes.update((notes) =>
       notes.map((_note) => {
-        return _note.id === this.note.id ? { ..._note, ...note } : _note;
+        return _note.id === this.note.id ? { ..._note, ...note.value } : _note;
       })
     );
 
@@ -181,9 +181,9 @@ export class NotesService {
 
     this.notes.update((notes) => notes.filter((note) => note.id !== id));
 
-    this.toastService.openToast(false, 'Note successfully deleted!');
-    this.modalService.toggleModal(`${id}_deleteNote`, false);
-    this.loaderService.setLoading(`_deleteNote`, false);
+    this.toastService.openToast(true, 'Note successfully deleted!');
+    this.modalService.toggleModal(`${id}_removeNote`, false);
+    this.loaderService.setLoading(`_removeNote`, false);
   }
 
   /**
