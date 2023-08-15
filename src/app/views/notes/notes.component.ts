@@ -17,6 +17,7 @@ export class NotesComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    this.notesService.getAllNotes();
     this.notesService.createNewNoteForm();
     this.notesService.createUpdateNoteForm();
   }
