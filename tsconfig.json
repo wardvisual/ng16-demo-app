@@ -24,7 +24,6 @@
     "paths": {
       "@ng16-demoapp/components": ["src/app/components/index.ts"],
       "@ng16-demoapp/views": ["src/app/views/index.ts"],
-      "@ng16-demoapp/views/auth": ["src/app/views/auth/features/index.ts"],
       "@ng16-demoapp/views/notes": ["src/app/views/notes/features/index.ts"],
       "@ng16-demoapp/layouts": ["src/app/layouts/index.ts"],
       "@ng16-demoapp/services": ["src/app/core/services/index.ts"],
