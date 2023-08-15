@@ -57,12 +57,12 @@
           <i-tabler
             name="edit"
             class="opacity-50 clickable"
-            (click)="toggleUpdateNoteForm(notesService.note)"
+            (click)="toggleUpdateNoteForm(notesService.note.id)"
           />
           <i-tabler
             name="trash"
             class="opacity-50 clickable"
-            (click)="toggleRemoveNote(notesService.note)"
+            (click)="toggleRemoveNote(notesService.note.id)"
           />
         </div>
       </div>

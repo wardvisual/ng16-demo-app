@@ -18,9 +18,18 @@ export class NotestListingComponent implements OnInit {
     this.notesService.getAllNotes();
   }
 
+  /**
+   * Toggles the view of a note.
+   *
+   * @param {Note} note - The note to be viewed.
+   */
   toggleViewNote(note: Note) {
     this.notesService.note = note;
+
+    // Create update form
     this.notesService.createUpdateNoteForm();
+
+    // Set default values for the updateNote form
     this.notesService.updateNoteForm.setValue({
       title: note.title,
       content: note.content,
@@ -29,14 +38,23 @@ export class NotestListingComponent implements OnInit {
     this.modalService.toggleModal(`${note.id}_viewNote`, true);
   }
 
-  toggleUpdateNoteForm(note: Note) {
-    this.modalService.toggleModal(`${note.id}_viewNote`, false);
-    this.modalService.toggleModal(`${note.id}_updateNote`, true);
+  /**
+   * Toggle the update note form.
+   *
+   * @param {Id} id - The note to update.
+   */
+  toggleUpdateNoteForm(id: string) {
+    this.modalService.toggleModal(`${id}_viewNote`, false);
+    this.modalService.toggleModal(`${id}_updateNote`, true);
   }
 
-  toggleRemoveNote(note: Note) {
-    console.log({ note });
-    this.modalService.toggleModal(`${note.id}_viewNote`, false);
-    this.modalService.toggleModal(`${note.id}_removeNote`, true);
+  /**
+   * Toggles the remove note modal for a given ID.
+   *
+   * @param {string} id - The ID of the note to be removed.
+   */
+  toggleRemoveNote(id: string) {
+    this.modalService.toggleModal(`${id}_viewNote`, false);
+    this.modalService.toggleModal(`${id}_removeNote`, true);
   }
 }
