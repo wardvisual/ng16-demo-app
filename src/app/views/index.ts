@@ -1,2 +1,2 @@
-export * from './auth/auth.component';
 export * from './notes/notes.component';
+export * from './auth/index';
