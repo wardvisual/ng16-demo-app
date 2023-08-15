@@ -1,21 +1,18 @@
-import { Injectable, computed, signal } from '@angular/core';
+import { Injectable, signal } from '@angular/core';
 
 import { SignIn, SignUp } from '@ng16-demoapp/types';
-import {
-  LocalStorageService,
-  RoutingService,
-  SupabaseService,
-} from '@ng16-demoapp/services';
+import { LocalStorageService, SupabaseService } from '@ng16-demoapp/services';
 import { ToastService } from '@ng16-demoapp/components';
 import { LoaderService } from './loader.service';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
 
 /**
  * This class utilizes the Supabase service but it does not use the built-in authentication for users of Supabase.
  * Instead, it implements basic custom authentication logic for demo purposes.
  */
 @Injectable({
-  providedIn: 'any',
+  providedIn: 'root',
 })
 export class AuthService {
   signUpForm: FormGroup<SignUp>;
@@ -27,14 +24,12 @@ export class AuthService {
   constructor(
     private supabaseService: SupabaseService,
     private localStorageService: LocalStorageService,
-    private routingService: RoutingService,
     private loaderService: LoaderService,
-    private toastService: ToastService
+    private toastService: ToastService,
+    private router: Router
   ) {
     this.createSignUpForm();
     this.createSignInForm();
-
-    console.log({ auth1: this.isAuthenticated() });
 
     this.isAuthenticated.update(() => {
       if (!this.localStorageService.getItem('currentUser')) {
@@ -50,12 +45,12 @@ export class AuthService {
   }
 
   /**
-   * Registers a user.
+   * Registers a new user.
    *
-   * @param {SignUp} user - The user data to be registered.
-   * @returns {Promise<SupabaseResponse>} The response from the Supabase API.
+   * @param {Event} event - The event object.
+   * @return {Promise<void>} A Promise that resolves when the user is registered.
    */
-  public async register(event: Event): Promise<void> {
+  async register(event: Event): Promise<void> {
     event.preventDefault();
 
     this.loaderService.setLoading('register', true);
@@ -66,35 +61,38 @@ export class AuthService {
       .from('users')
       .select()
       .or(
-        `username.eq.${user.username},emailAddress.eq.${user.username},username.eq.${user.username},emailAddress.eq.${user.emailAddress}`
+        `username.eq.${user?.username},emailAddress.eq.${user?.username},username.eq.${user?.username},emailAddress.eq.${user?.emailAddress}`
       )
       .single();
 
-    if (userFromDb.error) {
-      this.toastService.openToast(false, "Can't register");
-      return;
-    }
-
     if (userFromDb.data) {
+      let duplicatedField: string;
+
+      userFromDb.data.emailAddress === user.emailAddress
+        ? (duplicatedField = 'Email')
+        : (duplicatedField = 'Username');
+
       this.toastService.openToast(
         false,
-        `The ${user.username ? 'username' : 'email'} is already taken`
+        `This ${duplicatedField} is already taken`
       );
-
-      return;
     }
 
-    await this.supabaseService.supabase.from('users').insert([user]);
+    if (!userFromDb.data) {
+      await this.supabaseService.supabase.from('users').insert([user]);
 
-    this.toastService.openToast(true, 'You are now registered!');
+      this.toastService.openToast(true, 'You are now registered!');
+      this.router.navigateByUrl('/signin');
+    }
+
     this.loaderService.setLoading('register', false);
   }
 
   /**
    * Logs in the user.
    *
-   * @param {SignIn} user - The user's sign-in information.
-   * @return {Promise<SupabaseResponse>} - A promise that resolves to a SupabaseResponse.
+   * @param {Event} event - The event that triggered the login.
+   * @return {Promise<void>} - A promise that resolves once the login is complete.
    */
   public async login(event: Event): Promise<void> {
     event.preventDefault();
@@ -128,12 +126,18 @@ export class AuthService {
     this.loaderService.setLoading('login', false);
 
     this.localStorageService.setItem('currentUser', userWithoutPassword);
+    this.isAuthenticated.update(() => true);
 
     this.toastService.openToast(true, `You are now login!`);
 
-    this.routingService.redirectTo('/');
+    this.router.navigateByUrl('/');
   }
 
+  /**
+   * Retrieves the current user from the local storage and returns it.
+   *
+   * @return {object} The current user object with the `fullName` property added.
+   */
   get user() {
     const user = this.localStorageService.getItem('currentUser');
     user.fullName = `${user.firstName} ${user.lastName}`;
@@ -141,9 +145,13 @@ export class AuthService {
     return user;
   }
 
-  public logout() {
+  /**
+   * Logs out the current user by removing the 'currentUser' item from the local storage
+   * and redirecting to the '/signin' page.
+   */
+  public logout(): void {
     this.localStorageService.removeItem('currentUser');
-    this.routingService.redirectTo('/signin');
+    this.router.navigateByUrl('/signin');
   }
 
   /**
