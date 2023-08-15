@@ -97,7 +97,6 @@ export class NotesService {
 
     this.modalService.toggleModal('newNote', false);
     this.loaderService.setLoading('newNote', false);
-    // note.reset();
   }
 
   /**
@@ -150,14 +149,14 @@ export class NotesService {
       return;
     }
 
-    this.notes.mutate((notes) =>
-      notes.map((_note) =>
-        _note.id === note.value.id ? { ..._note, ...note.value } : _note
-      )
+    this.notes.update((notes) =>
+      notes.map((_note) => {
+        return _note.id === this.note.id ? { ..._note, ...note } : _note;
+      })
     );
 
     this.toastService.openToast(true, 'Note successfully updated!');
-    this.modalService.toggleModal(`${note.value.id}_updateNote`, false);
+    this.modalService.toggleModal(`${this.note.id}_updateNote`, false);
     this.loaderService.setLoading('updateNote', false);
   }
 
