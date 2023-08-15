@@ -30,6 +30,7 @@
       "@ng16-demoapp/services": ["src/app/core/services/index.ts"],
       "@ng16-demoapp/pipes": ["src/app/core/pipes/index.ts"],
       "@ng16-demoapp/types": ["src/app/core/types/index.ts"],
+      "@ng16-demoapp/guards": ["src/app/core/guards/index.ts"],
       "@ng16-demoapp/environments": ["src/environments/index.ts"]
     }
   },
