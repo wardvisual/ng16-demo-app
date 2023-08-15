@@ -1,0 +1,28 @@
+<!-- Modal - Update Note Component Start-->
+<app-modal
+  title="Update Note"
+  [isOpen]="modalService.getModal('update')"
+  name="update"
+>
+  <div class="view-note">
+    <h6>
+      {{ note.title }}
+    </h6>
+
+    <div class="view-note__body">
+      <div class="view-note__control">
+        <p>
+          <i-tabler name="calendar" class="opacity-50" />
+          <span>{{ note.createdAt | date : "MM/dd/yyyy" }}</span>
+        </p>
+        |
+        <div>
+          <i-tabler name="edit" class="opacity-50 clickable" />
+          <i-tabler name="trash" class="opacity-50 clickable" />
+        </div>
+      </div>
+      <p>{{ note.content }}</p>
+    </div>
+  </div>
+</app-modal>
+<!-- Modal - Update Note Component End-->
