@@ -127,8 +127,7 @@ export class NotesService implements OnInit {
     this.toastService.openToast(true, 'Notes successfully retrieved!');
   }
 
-  // TODO: Update note type
-  async updateNote(event: Event, note: any): Promise<void> {
+  async updateNote(event: Event, note: FormGroup<UpdateNote>): Promise<void> {
     event.preventDefault();
 
     this.loaderService.setLoading('updateNote', true);
@@ -151,7 +150,7 @@ export class NotesService implements OnInit {
     );
 
     this.toastService.openToast(true, 'Note successfully updated!');
-    this.modalService.toggleModal(`${note.id}_updateNote`, false);
+    this.modalService.toggleModal(`${note.value.id}_updateNote`, false);
     this.loaderService.setLoading('updateNote', false);
   }
 
