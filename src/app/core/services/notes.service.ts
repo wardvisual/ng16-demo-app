@@ -97,6 +97,9 @@ export class NotesService {
 
     this.modalService.toggleModal('newNote', false);
     this.loaderService.setLoading('newNote', false);
+
+    this.newNoteForm.reset();
+    this.createNewNoteForm();
   }
 
   /**
