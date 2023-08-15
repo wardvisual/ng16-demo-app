@@ -2,6 +2,7 @@ import { Component, Input, OnInit, Signal } from '@angular/core';
 import { ModalService } from '@ng16-demoapp/components';
 import { NotesService } from '@ng16-demoapp/services';
 import { Note } from '@ng16-demoapp/types';
+import { LoaderService } from '../../../../core/services/loader.service';
 
 @Component({
   selector: 'app-remove-note',
@@ -11,7 +12,8 @@ import { Note } from '@ng16-demoapp/types';
 export class RemoveNoteComponent implements OnInit {
   constructor(
     public notesService: NotesService,
-    public modalService: ModalService
+    public modalService: ModalService,
+    public loaderService: LoaderService
   ) {}
 
   ngOnInit(): void {}
