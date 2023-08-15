@@ -7,6 +7,7 @@ import {
   AuthLayoutComponent,
   MainLayoutComponent,
 } from '@ng16-demoapp/layouts';
+import { authGuard } from '@ng16-demoapp/guards';
 
 export const routes: Routes = [
   {
@@ -20,6 +21,7 @@ export const routes: Routes = [
         path: '',
         pathMatch: 'full',
         component: MainLayoutComponent,
+        canActivate: [authGuard],
         children: [
           {
             path: '',
