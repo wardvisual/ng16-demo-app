@@ -1,27 +1,26 @@
-# MyApp
+![banner](src/assets/screenshots/banner.jpg)
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 16.2.0.
+## Astronautaking App
+Astronautaking is a powerful and user-friendly note-taking web application built with Angular 16 and Supabase. This app allows you to easily create, organize, and manage your notes in one convenient location.
 
-## Development server
+### Built With:
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
+- NPM - Package Manager
+- Angular 16 - Frontend
+- Supabase - Backend As A Service
 
-## Code scaffolding
+### Design Overview:
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+![designs](src/assets/screenshots/designs.jpg)
 
-## Build
+### Basic Supabase Schema:
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
+![schema](src/assets/screenshots/schema.jpg)
 
-## Running unit tests
+### License:
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+This project is licensed under the `LICENSE`.
 
-## Running end-to-end tests
+## Contact
 
-Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
-
-## Further help
-
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
+[Edward Fernadnez](https://wardvisual.me/)
