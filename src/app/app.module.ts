@@ -39,7 +39,10 @@ import { TruncatePipe } from '@ng16-demoapp/pipes';
     ToastComponent,
     AuthLayoutComponent,
     MainLayoutComponent,
+    NotesComponents.CreateNoteComponent,
     NotesComponents.NotestListingComponent,
+    NotesComponents.UpdateNoteComponent,
+    NotesComponents.RemoveNoteComponent,
 
     // Pipes
     TruncatePipe,
