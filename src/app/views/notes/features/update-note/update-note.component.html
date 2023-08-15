@@ -56,9 +56,7 @@
           [name]="
             loaderService.getLoading(this) ? 'Updating...' : 'Update Note'
           "
-          [isDisabled]="
-            notesService.isButtonDisabled || loaderService.getLoading(this)
-          "
+          [isDisabled]="loaderService.getLoading(this)"
         ></app-button>
       </footer>
     </form>
