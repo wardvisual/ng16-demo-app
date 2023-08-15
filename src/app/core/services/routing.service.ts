@@ -7,6 +7,12 @@ import { Router } from '@angular/router';
 export class RoutingService {
   constructor(private router: Router) {}
 
+  /**
+   * Redirects to the specified route.
+   *
+   * @param {string} route - The route to navigate to.
+   * @return {void} This function does not return anything.
+   */
   redirectTo(route: string): void {
     this.router.navigateByUrl(route);
   }
