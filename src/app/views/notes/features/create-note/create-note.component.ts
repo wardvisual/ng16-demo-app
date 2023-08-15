@@ -1,5 +1,4 @@
-import { Component, Input, OnInit, Signal } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { Component, OnInit } from '@angular/core';
 import { ModalService } from '@ng16-demoapp/components';
 import {
   AuthService,
@@ -7,7 +6,6 @@ import {
   LoaderService,
   NotesService,
 } from '@ng16-demoapp/services';
-import { CreateNote, Note } from '@ng16-demoapp/types';
 
 @Component({
   selector: 'app-create-note',
