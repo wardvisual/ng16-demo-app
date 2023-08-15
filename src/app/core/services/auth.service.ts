@@ -1,4 +1,4 @@
-import { Injectable, signal } from '@angular/core';
+import { Injectable, computed, signal } from '@angular/core';
 
 import { SignIn, SignUp } from '@ng16-demoapp/types';
 import {
@@ -6,39 +6,47 @@ import {
   RoutingService,
   SupabaseService,
 } from '@ng16-demoapp/services';
-import { SupabaseResponse } from '@ng16-demoapp/types';
+import { ToastService } from '@ng16-demoapp/components';
+import { LoaderService } from './loader.service';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 
 /**
  * This class utilizes the Supabase service but it does not use the built-in authentication for users of Supabase.
  * Instead, it implements basic custom authentication logic for demo purposes.
  */
 @Injectable({
-  providedIn: 'root',
+  providedIn: 'any',
 })
 export class AuthService {
+  signUpForm: FormGroup<SignUp>;
+  signInForm: FormGroup<SignIn>;
+  isButtonDisabled: boolean;
+
   isAuthenticated = signal<boolean>(false);
 
   constructor(
     private supabaseService: SupabaseService,
     private localStorageService: LocalStorageService,
-    private routingService: RoutingService
+    private routingService: RoutingService,
+    private loaderService: LoaderService,
+    private toastService: ToastService
   ) {
-    this.authenticateUser();
+    this.createSignUpForm();
+    this.createSignInForm();
+
+    console.log({ auth1: this.isAuthenticated() });
+
+    this.isAuthenticated.update(() => {
+      if (!this.localStorageService.getItem('currentUser')) {
+        return false;
+      }
+
+      return true;
+    });
   }
 
-  /**
-   * Authenticates the user.
-   *
-   * @private
-   * @return {void}
-   */
-  private authenticateUser(): void {
-    if (!this.localStorageService.getItem('currentUser').id) {
-      this.isAuthenticated.update(() => false);
-      return;
-    }
-
-    this.isAuthenticated.update(() => true);
+  onValidationStatusChange(status: boolean) {
+    this.isButtonDisabled = !status;
   }
 
   /**
@@ -47,28 +55,39 @@ export class AuthService {
    * @param {SignUp} user - The user data to be registered.
    * @returns {Promise<SupabaseResponse>} The response from the Supabase API.
    */
-  public async register(user: SignUp): Promise<SupabaseResponse> {
+  public async register(event: Event): Promise<void> {
+    event.preventDefault();
+
+    this.loaderService.setLoading('register', true);
+
+    const user = this.signUpForm.value;
+
     const userFromDb: any = await this.supabaseService.supabase
       .from('users')
       .select()
       .or(
-        `username.eq.${user?.username},emailAddress.eq.${user?.username},username.eq.${user?.emailAddress},emailAddress.eq.${user?.emailAddress}`
+        `username.eq.${user.username},emailAddress.eq.${user.username},username.eq.${user.username},emailAddress.eq.${user.emailAddress}`
       )
       .single();
 
+    if (userFromDb.error) {
+      this.toastService.openToast(false, "Can't register");
+      return;
+    }
+
     if (userFromDb.data) {
-      return {
-        isSuccess: false,
-        message: `The ${user.username ? 'username' : 'email'} is already taken`,
-      } satisfies SupabaseResponse;
+      this.toastService.openToast(
+        false,
+        `The ${user.username ? 'username' : 'email'} is already taken`
+      );
+
+      return;
     }
 
     await this.supabaseService.supabase.from('users').insert([user]);
 
-    return {
-      isSuccess: true,
-      message: 'You are now registered!',
-    } satisfies SupabaseResponse;
+    this.toastService.openToast(true, 'You are now registered!');
+    this.loaderService.setLoading('register', false);
   }
 
   /**
@@ -77,7 +96,13 @@ export class AuthService {
    * @param {SignIn} user - The user's sign-in information.
    * @return {Promise<SupabaseResponse>} - A promise that resolves to a SupabaseResponse.
    */
-  public async login(user: SignIn): Promise<SupabaseResponse> {
+  public async login(event: Event): Promise<void> {
+    event.preventDefault();
+
+    this.loaderService.setLoading('login', true);
+
+    const user = this.signInForm.value;
+
     const userFromDb: any = await this.supabaseService.supabase
       .from('users')
       .select()
@@ -87,25 +112,26 @@ export class AuthService {
       .single();
 
     if (!userFromDb.data) {
-      return {
-        isSuccess: false,
-        message: `Invalid username or password`,
-      } satisfies SupabaseResponse;
+      this.toastService.openToast(false, `Account doesn't exists`);
+      this.loaderService.setLoading('login', false);
+      return;
     }
 
     if (userFromDb.data?.password !== user?.password) {
-      return {
-        isSuccess: false,
-        message: `Invalid username or password`,
-      } satisfies SupabaseResponse;
+      this.toastService.openToast(false, `Invalid password`);
+      this.loaderService.setLoading('login', false);
+      return;
     }
 
     const { password, ...userWithoutPassword } = userFromDb.data;
-    return {
-      isSuccess: true,
-      message: 'You are now login!',
-      result: userWithoutPassword,
-    } satisfies SupabaseResponse;
+
+    this.loaderService.setLoading('login', false);
+
+    this.localStorageService.setItem('currentUser', userWithoutPassword);
+
+    this.toastService.openToast(true, `You are now login!`);
+
+    this.routingService.redirectTo('/');
   }
 
   get user() {
@@ -115,8 +141,57 @@ export class AuthService {
     return user;
   }
 
-  logout() {
+  public logout() {
     this.localStorageService.removeItem('currentUser');
     this.routingService.redirectTo('/signin');
+  }
+
+  /**
+   * Creates a signup form.
+   *
+   * @return {void}
+   */
+  createSignUpForm(): void {
+    this.signUpForm = new FormGroup<SignUp>({
+      firstName: new FormControl('', [
+        Validators.required,
+        Validators.minLength(3),
+      ]),
+      lastName: new FormControl('', [
+        Validators.required,
+        Validators.minLength(3),
+      ]),
+      username: new FormControl('', [
+        Validators.required,
+        Validators.minLength(6),
+      ]),
+      emailAddress: new FormControl('', [
+        Validators.required,
+        Validators.email,
+        Validators.pattern('[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,4}$'),
+      ]),
+      password: new FormControl('', [
+        Validators.required,
+        Validators.minLength(10),
+      ]),
+    });
+  }
+
+  /**
+   * Creates the signin form.
+   *
+   * @returns {void} - No return value.
+   */
+  createSignInForm(): void {
+    this.signInForm = new FormGroup<SignIn>({
+      username: new FormControl('', [
+        Validators.required,
+        Validators.minLength(6),
+      ]),
+      password: new FormControl('', [
+        Validators.required,
+        Validators.minLength(10),
+      ]),
+    });
   }
 }
