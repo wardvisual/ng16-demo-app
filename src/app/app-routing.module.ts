@@ -1,8 +1,11 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
-import { SignInComponent, SignUpComponent } from '@ng16-demoapp/views/auth';
-import { NotesComponent } from '@ng16-demoapp/views';
+import {
+  NotesComponent,
+  SignInComponent,
+  SignUpComponent,
+} from '@ng16-demoapp/views';
 import {
   AuthLayoutComponent,
   MainLayoutComponent,
