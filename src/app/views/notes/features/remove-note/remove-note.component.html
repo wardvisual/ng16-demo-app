@@ -11,5 +11,15 @@
       {{ notesService.note.title }}
     </p>
   </div>
+
+  <br />
+
+  <app-button
+    type="submit"
+    variant="primary"
+    (buttonClick)="notesService.removeNote(notesService.note.id)"
+    [name]="loaderService.getLoading(this) ? 'Deleting...' : 'Delete Note'"
+    [isDisabled]="loaderService.getLoading(this)"
+  ></app-button>
 </app-modal>
 <!-- Modal - Remove Note Component End -->
