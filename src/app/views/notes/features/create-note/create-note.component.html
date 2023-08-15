@@ -1,0 +1,70 @@
+<!-- New Note Modal -->
+<app-modal
+  title="New Note"
+  [isOpen]="modalService.getModal('newNote')"
+  name="newNote"
+>
+  <!-- Create new note form -->
+  <div class="form">
+    <form
+      [formGroup]="notesService.newNoteForm"
+      (ngSubmit)="notesService.createNewNote($event, notesService.newNoteForm)"
+    >
+      <header>
+        <img src="assets/images/form-art.svg" alt="astronautaking logo" />
+      </header>
+
+      <section>
+        <div class="flex-items-center">
+          <i-tabler name="calendar" class="opacity-50" />
+          <p>
+            {{
+              notesService.newNoteForm.get("createdAt").value
+                | date : "dd/MM/yyyy"
+            }}
+          </p>
+        </div>
+
+        <app-input
+          type="text"
+          name="title"
+          label="Title"
+          [required]="true"
+          [formGroup]="notesService.newNoteForm"
+          formControlName="title"
+          (validationStatusChange)="
+            notesService.onValidationStatusChange($event)
+          "
+          ngDefaultControl
+        ></app-input>
+
+        <app-input
+          type="textarea"
+          name="content"
+          label="Note"
+          [required]="true"
+          [formGroup]="notesService.newNoteForm"
+          formControlName="content"
+          (validationStatusChange)="
+            notesService.onValidationStatusChange($event)
+          "
+          ngDefaultControl
+        ></app-input>
+      </section>
+      <footer>
+        <app-button
+          type="submit"
+          variant="primary"
+          [name]="
+            loaderService.getLoading(this) ? 'Creating...' : 'Create Note'
+          "
+          [isDisabled]="
+            notesService.isButtonDisabled || loaderService.getLoading(this)
+          "
+        ></app-button>
+      </footer>
+    </form>
+  </div>
+  <!-- Create new note form end -->
+</app-modal>
+<!-- View Modal End -->

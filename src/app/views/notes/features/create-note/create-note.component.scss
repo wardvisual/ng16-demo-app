@@ -1,0 +1,11 @@
+.form {
+  header {
+    display: grid;
+    place-items: center;
+    img {
+      max-width: 80%;
+      margin-bottom: 1em;
+    }
+    border-bottom: 1px var(--color-neutral-100) solid;
+  }
+}
