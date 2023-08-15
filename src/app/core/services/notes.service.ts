@@ -139,12 +139,10 @@ export class NotesService {
   async updateNote(event: Event, note: FormGroup<UpdateNote>): Promise<void> {
     event.preventDefault();
 
-    this.loaderService.setLoading('updateNote', true);
-
     const response = await this.supabaseService.supabase
       .from('notes')
       .update(note.value)
-      .eq('id', note.value.id)
+      .eq('id', this.note.id)
       .select();
 
     if (response.error) {
