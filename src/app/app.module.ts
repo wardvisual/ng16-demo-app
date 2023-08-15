@@ -7,8 +7,11 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
 
-import { AuthComponent, NotesComponent } from '@ng16-demoapp/views';
-import { SignInComponent, SignUpComponent } from '@ng16-demoapp/views/auth';
+import {
+  NotesComponent,
+  SignInComponent,
+  SignUpComponent,
+} from '@ng16-demoapp/views';
 
 import * as NotesComponents from '@ng16-demoapp/views/notes';
 
@@ -32,7 +35,6 @@ import { TruncatePipe } from '@ng16-demoapp/pipes';
     InputComponent,
     ButtonComponent,
     NotesComponent,
-    AuthComponent,
     SignInComponent,
     SignUpComponent,
     ModalComponent,
