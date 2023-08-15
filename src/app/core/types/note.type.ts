@@ -14,3 +14,9 @@ export interface CreateNote {
   createdAt: FormControl;
   userId: FormControl;
 }
+
+export interface UpdateNote {
+  id?: FormControl;
+  title: FormControl;
+  content: FormControl;
+}
