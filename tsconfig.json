@@ -30,7 +30,9 @@
       "@ng16-demoapp/pipes": ["src/app/core/pipes/index.ts"],
       "@ng16-demoapp/types": ["src/app/core/types/index.ts"],
       "@ng16-demoapp/guards": ["src/app/core/guards/index.ts"],
-      "@ng16-demoapp/environments": ["src/environments/index.ts"]
+      "@ng16-demoapp/environments": ["src/environments/index.ts"],
+      "stream": [ "./node_modules/stream-browserify" ]
+
     }
   },
   "angularCompilerOptions": {
