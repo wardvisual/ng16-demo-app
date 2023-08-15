@@ -51,7 +51,7 @@ export class NotestListingComponent implements OnInit {
   /**
    * Toggles the remove note modal for a given ID.
    *
-   * @param {string} id - The ID of the note to be removed.
+   * @param {string} id - The note to be removed.
    */
   toggleRemoveNote(id: string) {
     this.modalService.toggleModal(`${id}_viewNote`, false);
