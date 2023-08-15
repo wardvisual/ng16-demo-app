@@ -1,4 +1,7 @@
-<form [formGroup]="signInForm" (ngSubmit)="onSignIn($event)">
+<form
+  [formGroup]="authService.signInForm"
+  (ngSubmit)="authService.login($event)"
+>
   <header>
     <h2>The Ultimate Note-Taking App</h2>
     <p>
@@ -13,9 +16,9 @@
       name="username"
       label="Username"
       [required]="true"
-      [formGroup]="signInForm"
+      [formGroup]="authService.signInForm"
       formControlName="username"
-      (validationStatusChange)="onValidationStatusChange($event)"
+      (validationStatusChange)="authService.onValidationStatusChange($event)"
       ngDefaultControl
     ></app-input>
 
@@ -24,9 +27,9 @@
       name="password"
       label="Password"
       [required]="true"
-      [formGroup]="signInForm"
+      [formGroup]="authService.signInForm"
       formControlName="password"
-      (validationStatusChange)="onValidationStatusChange($event)"
+      (validationStatusChange)="authService.onValidationStatusChange($event)"
       ngDefaultControl
     ></app-input>
   </section>
@@ -34,8 +37,10 @@
     <app-button
       type="submit"
       variant="primary"
-      [name]="loaderService.getLoading(this) ? 'Logging In...' : 'Login'"
-      [isDisabled]="isDisabled || loaderService.getLoading(this)"
+      [name]="loaderService.getLoading('login') ? 'Logging In...' : 'Login'"
+      [isDisabled]="
+        authService.isButtonDisabled || loaderService.getLoading('login')
+      "
     ></app-button>
     <p>Don't have an account yet? <a routerLink="/signup">Sign Up</a></p>
   </footer>
