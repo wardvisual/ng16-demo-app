@@ -1,56 +1,73 @@
-<section class="notes">
-  <h4>Personal Notes</h4>
+<ng-container *ngIf="notesService.notes().length > 0; else loading">
+  <section class="notes">
+    <h4>Personal Notes</h4>
 
-  <!-- Notes Listing Component -->
-  <div class="notes__lists">
-    <div
-      *ngFor="let note of notes()"
-      [ngValue]="note"
-      (click)="toggleViewNote(note)"
-    >
-      <div class="notes__item">
-        <h6>
-          {{ note.title | truncate : 20 }}
-        </h6>
-        <div>
-          <p>
-            <i-tabler name="calendar" class="opacity-50" />
-            <span>{{ note.createdAt | date : "MM/dd/yyyy" }}</span>
-          </p>
-          <p>{{ note.content | truncate : 100 }}</p>
-        </div>
-      </div>
-    </div>
-  </div>
-  <!-- Notes Listing Component End -->
-
-  <!-- Modal - View Note Component Start-->
-  <app-modal
-    *ngIf="selectedNote?.id"
-    title="My Note"
-    [isOpen]="modalService.getModal(selectedNote.id)"
-    [name]="selectedNote.id"
-  >
-    <div class="view-note">
-      <h6>
-        {{ selectedNote.title }}
-      </h6>
-
-      <div class="view-note__body">
-        <div class="view-note__control">
-          <p>
-            <i-tabler name="calendar" class="opacity-50" />
-            <span>{{ selectedNote.createdAt | date : "MM/dd/yyyy" }}</span>
-          </p>
-          |
+    <!-- Notes Listing Component Start -->
+    <div class="notes__lists">
+      <div
+        *ngFor="let _note of notesService.notes()"
+        [ngValue]="_note"
+        (click)="toggleViewNote(_note)"
+      >
+        <!-- Notes Item Start -->
+        <div class="notes__item">
+          <h6>
+            {{ _note.title | truncate : 20 }}
+          </h6>
           <div>
-            <i-tabler name="edit" class="opacity-50 clickable" />
-            <i-tabler name="trash" class="opacity-50 clickable" />
+            <p>
+              <i-tabler name="calendar" class="opacity-50" />
+              <span>{{ _note.createdAt | date : "MM/dd/yyyy" }}</span>
+            </p>
+            <p>{{ _note.content | truncate : 100 }}</p>
           </div>
         </div>
-        <p>{{ selectedNote.content }}</p>
+
+        <!-- Notes Item End End -->
       </div>
     </div>
-  </app-modal>
-  <!-- Modal - View Note Component End-->
-</section>
+    <!-- Notes Listing Component End -->
+  </section>
+</ng-container>
+
+<ng-template #loading>
+  <div>Loading...</div>
+</ng-template>
+
+<!-- Modal - View Note Component Start -->
+<app-modal
+  *ngIf="notesService.note?.id"
+  title="My Note"
+  [isOpen]="modalService.getModal(notesService.note.id + '_viewNote')"
+  [name]="notesService.note.id + '_viewNote'"
+>
+  <div class="view-note">
+    <h6>
+      {{ notesService.note.title }}
+    </h6>
+
+    <div class="view-note__body">
+      <div class="view-note__control">
+        <p>
+          <i-tabler name="calendar" class="opacity-50" />
+          <span>{{ notesService.note.createdAt | date : "MM/dd/yyyy" }}</span>
+        </p>
+        |
+        <div>
+          <i-tabler
+            name="edit"
+            class="opacity-50 clickable"
+            (click)="toggleUpdateNoteForm(notesService.note)"
+          />
+          <i-tabler
+            name="trash"
+            class="opacity-50 clickable"
+            (click)="toggleRemoveNote(notesService.note)"
+          />
+        </div>
+      </div>
+      <p>{{ notesService.note.content }}</p>
+    </div>
+  </div>
+</app-modal>
+<!-- Modal - View Note Component End -->

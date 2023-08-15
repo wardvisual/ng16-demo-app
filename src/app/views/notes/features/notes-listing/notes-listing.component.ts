@@ -1,5 +1,6 @@
-import { Component, Input, OnInit, Signal } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { ModalService } from '@ng16-demoapp/components';
+import { NotesService } from '@ng16-demoapp/services';
 import { Note } from '@ng16-demoapp/types';
 
 @Component({
@@ -8,21 +9,34 @@ import { Note } from '@ng16-demoapp/types';
   styleUrls: ['./notes-listing.component.scss'],
 })
 export class NotestListingComponent implements OnInit {
-  @Input() notes: Signal<Note[]>;
-  @Input() notesList: number;
-  @Input() callback: (note: Note) => void;
+  constructor(
+    public notesService: NotesService,
+    public modalService: ModalService
+  ) {}
 
-  selectedNote: Note;
-
-  constructor(protected modalService: ModalService) {}
-
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.notesService.getAllNotes();
+  }
 
   toggleViewNote(note: Note) {
-    this.selectedNote = note;
+    this.notesService.note = note;
+    this.notesService.createUpdateNoteForm();
+    this.notesService.updateNoteForm.setValue({
+      title: note.title,
+      content: note.content,
+    });
 
-    this.callback(note);
+    this.modalService.toggleModal(`${note.id}_viewNote`, true);
+  }
 
-    this.modalService.toggleModal(note.id, true);
+  toggleUpdateNoteForm(note: Note) {
+    this.modalService.toggleModal(`${note.id}_viewNote`, false);
+    this.modalService.toggleModal(`${note.id}_updateNote`, true);
+  }
+
+  toggleRemoveNote(note: Note) {
+    console.log({ note });
+    this.modalService.toggleModal(`${note.id}_viewNote`, false);
+    this.modalService.toggleModal(`${note.id}_removeNote`, true);
   }
 }
