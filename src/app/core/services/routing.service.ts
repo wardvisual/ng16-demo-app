@@ -1,4 +1,4 @@
-import { Injectable, Signal, signal } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 
 @Injectable({
@@ -18,12 +18,11 @@ export class RoutingService {
   }
 
   /**
-   * Checks if the current route matches the provided route.
+   * Retrieves the current route.
    *
-   * @param {string} route - The route to compare against the current route.
-   * @return {boolean} Returns true if the current route matches the provided route, false otherwise.
+   * @return {string} The current route.
    */
-  checkCurrentRoute(route: string): boolean {
-    return this.router.url === `/${route}`;
+  getCurrentRoute(): string {
+    return this.router.url;
   }
 }
