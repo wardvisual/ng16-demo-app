@@ -14,9 +14,7 @@ export class NotestListingComponent implements OnInit {
     public modalService: ModalService
   ) {}
 
-  ngOnInit(): void {
-    this.notesService.getAllNotes();
-  }
+  ngOnInit(): void {}
 
   /**
    * Toggles the view of a note.
