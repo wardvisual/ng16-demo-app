@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, signal } from '@angular/core';
 
 import { SignIn, SignUp } from '@ng16-demoapp/types';
 import {
@@ -16,16 +16,29 @@ import { SupabaseResponse } from '@ng16-demoapp/types';
   providedIn: 'root',
 })
 export class AuthService {
-  isUserLoggedIn: boolean = false;
+  isAuthenticated = signal<boolean>(false);
 
   constructor(
     private supabaseService: SupabaseService,
     private localStorageService: LocalStorageService,
     private routingService: RoutingService
   ) {
-    if (this.localStorageService.getItem('currentUser')) {
-      this.isUserLoggedIn = true;
+    this.authenticateUser();
+  }
+
+  /**
+   * Authenticates the user.
+   *
+   * @private
+   * @return {void}
+   */
+  private authenticateUser(): void {
+    if (!this.localStorageService.getItem('currentUser').id) {
+      this.isAuthenticated.update(() => false);
+      return;
     }
+
+    this.isAuthenticated.update(() => true);
   }
 
   /**
@@ -96,12 +109,10 @@ export class AuthService {
   }
 
   get user() {
-    // if (this.isUserLoggedIn) {
     const user = this.localStorageService.getItem('currentUser');
     user.fullName = `${user.firstName} ${user.lastName}`;
 
     return user;
-    // }
   }
 
   logout() {
