@@ -1,0 +1,15 @@
+<!-- Modal - Remove Note Component Start -->
+<app-modal
+  *ngIf="notesService.note?.id"
+  title="Remove Note"
+  [isOpen]="modalService.getModal(notesService.note.id + '_removeNote')"
+  [name]="notesService.note.id + '_removeNote'"
+>
+  <div class="">
+    <h6>Are you sure you want to delete?</h6>
+    <p>
+      {{ notesService.note.title }}
+    </p>
+  </div>
+</app-modal>
+<!-- Modal - Remove Note Component End -->
