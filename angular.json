@@ -3,7 +3,7 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "ng16-demo-app": {
+    "astronautaking": {
       "projectType": "application",
       "schematics": {
         "@schematics/angular:component": {
@@ -17,7 +17,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "outputPath": "dist/ng16-demo-app",
+            "outputPath": "dist/astronautaking",
             "index": "src/index.html",
             "main": "src/main.ts",
             "polyfills": ["zone.js"],
@@ -64,10 +64,10 @@
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
             "production": {
-              "browserTarget": "ng16-demo-app:build:production"
+              "browserTarget": "astronautaking:build:production"
             },
             "development": {
-              "browserTarget": "ng16-demo-app:build:development"
+              "browserTarget": "astronautaking:build:development"
             }
           },
           "defaultConfiguration": "development"
@@ -75,7 +75,7 @@
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "ng16-demo-app:build"
+            "browserTarget": "astronautaking:build"
           }
         },
         "test": {

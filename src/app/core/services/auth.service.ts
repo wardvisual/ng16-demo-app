@@ -1,8 +1,8 @@
 import { Injectable, signal } from '@angular/core';
 
-import { SignIn, SignUp } from '@ng16-demoapp/types';
-import { LocalStorageService, SupabaseService } from '@ng16-demoapp/services';
-import { ToastService } from '@ng16-demoapp/components';
+import { SignIn, SignUp } from 'astronautaking/types';
+import { LocalStorageService, SupabaseService } from 'astronautaking/services';
+import { ToastService } from 'astronautaking/components';
 import { LoaderService } from './loader.service';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';

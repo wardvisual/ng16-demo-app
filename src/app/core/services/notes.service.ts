@@ -1,15 +1,15 @@
 import { Injectable, OnInit, signal } from '@angular/core';
-import { AuthService, SupabaseService } from '@ng16-demoapp/services';
+import { AuthService, SupabaseService } from 'astronautaking/services';
 
 import {
   CreateNote,
   Note,
   SupabaseResponse,
   UpdateNote,
-} from '@ng16-demoapp/types';
+} from 'astronautaking/types';
 import { LoaderService } from './loader.service';
 import { DateService } from './date.service';
-import { ModalService, ToastService } from '@ng16-demoapp/components';
+import { ModalService, ToastService } from 'astronautaking/components';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 
 @Injectable({

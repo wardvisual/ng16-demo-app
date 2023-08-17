@@ -1,11 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-import { ModalService } from '@ng16-demoapp/components';
+import { ModalService } from 'astronautaking/components';
 import {
   AuthService,
   DateService,
   LoaderService,
   NotesService,
-} from '@ng16-demoapp/services';
+} from 'astronautaking/services';
 
 @Component({
   selector: 'app-create-note',

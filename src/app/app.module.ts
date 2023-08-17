@@ -11,23 +11,23 @@ import {
   NotesComponent,
   SignInComponent,
   SignUpComponent,
-} from '@ng16-demoapp/views';
+} from 'astronautaking/views';
 
-import * as NotesComponents from '@ng16-demoapp/views/notes';
+import * as NotesComponents from 'astronautaking/views/notes';
 
 import {
   ButtonComponent,
   InputComponent,
   ModalComponent,
   ToastComponent,
-} from '@ng16-demoapp/components';
+} from 'astronautaking/components';
 import {
   AuthLayoutComponent,
   MainLayoutComponent,
-} from '@ng16-demoapp/layouts';
+} from 'astronautaking/layouts';
 
 import { IconsModule } from './icons.module';
-import { TruncatePipe } from '@ng16-demoapp/pipes';
+import { TruncatePipe } from 'astronautaking/pipes';
 
 @NgModule({
   declarations: [

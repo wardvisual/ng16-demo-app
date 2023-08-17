@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 
-import { AuthService } from '@ng16-demoapp/services';
-import { ModalService } from '@ng16-demoapp/components';
+import { AuthService } from 'astronautaking/services';
+import { ModalService } from 'astronautaking/components';
 import { NotesService } from '../../core/services/notes.service';
 
 @Component({

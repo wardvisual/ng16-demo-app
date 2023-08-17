@@ -5,12 +5,12 @@ import {
   NotesComponent,
   SignInComponent,
   SignUpComponent,
-} from '@ng16-demoapp/views';
+} from 'astronautaking/views';
 import {
   AuthLayoutComponent,
   MainLayoutComponent,
-} from '@ng16-demoapp/layouts';
-import { authGuard } from '@ng16-demoapp/guards';
+} from 'astronautaking/layouts';
+import { authGuard } from 'astronautaking/guards';
 
 export const routes: Routes = [
   {

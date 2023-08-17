@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { ModalService } from '@ng16-demoapp/components';
-import { NotesService } from '@ng16-demoapp/services';
-import { Note } from '@ng16-demoapp/types';
+import { ModalService } from 'astronautaking/components';
+import { NotesService } from 'astronautaking/services';
+import { Note } from 'astronautaking/types';
 
 @Component({
   selector: 'app-notes-listing',

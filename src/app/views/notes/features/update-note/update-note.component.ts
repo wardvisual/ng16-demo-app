@@ -1,8 +1,8 @@
 import { Component, Input, OnInit, Signal, signal } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { ModalService } from '@ng16-demoapp/components';
-import { LoaderService, NotesService } from '@ng16-demoapp/services';
-import { Note, UpdateNote } from '@ng16-demoapp/types';
+import { ModalService } from 'astronautaking/components';
+import { LoaderService, NotesService } from 'astronautaking/services';
+import { Note, UpdateNote } from 'astronautaking/types';
 
 @Component({
   selector: 'app-update-note',

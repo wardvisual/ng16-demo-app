@@ -22,15 +22,15 @@
     "lib": ["ES2022", "dom"],
 
     "paths": {
-      "@ng16-demoapp/components": ["src/app/components/index.ts"],
-      "@ng16-demoapp/views": ["src/app/views/index.ts"],
-      "@ng16-demoapp/views/notes": ["src/app/views/notes/features/index.ts"],
-      "@ng16-demoapp/layouts": ["src/app/layouts/index.ts"],
-      "@ng16-demoapp/services": ["src/app/core/services/index.ts"],
-      "@ng16-demoapp/pipes": ["src/app/core/pipes/index.ts"],
-      "@ng16-demoapp/types": ["src/app/core/types/index.ts"],
-      "@ng16-demoapp/guards": ["src/app/core/guards/index.ts"],
-      "@ng16-demoapp/environments": ["src/environments/index.ts"]
+      "astronautaking/components": ["src/app/components/index.ts"],
+      "astronautaking/views": ["src/app/views/index.ts"],
+      "astronautaking/views/notes": ["src/app/views/notes/features/index.ts"],
+      "astronautaking/layouts": ["src/app/layouts/index.ts"],
+      "astronautaking/services": ["src/app/core/services/index.ts"],
+      "astronautaking/pipes": ["src/app/core/pipes/index.ts"],
+      "astronautaking/types": ["src/app/core/types/index.ts"],
+      "astronautaking/guards": ["src/app/core/guards/index.ts"],
+      "astronautaking/environments": ["src/environments/index.ts"]
     }
   },
   "angularCompilerOptions": {

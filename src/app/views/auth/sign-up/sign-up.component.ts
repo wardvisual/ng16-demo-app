@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { AuthService, LoaderService } from '@ng16-demoapp/services';
+import { AuthService, LoaderService } from 'astronautaking/services';
 
 @Component({
   selector: 'app-sign-up',
