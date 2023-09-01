@@ -1,11 +1,11 @@
-<ng-container *ngIf="notesService.notes().length > 0; else noNotes">
+<ng-container *ngIf="notes?.length > 0; else noNotes">
   <section class="notes">
     <h4>Personal Notes</h4>
 
     <!-- Notes Listing Component Start -->
     <div class="notes__lists">
       <div
-        *ngFor="let _note of notesService.notes()"
+        *ngFor="let _note of notes"
         [ngValue]="_note"
         (click)="toggleViewNote(_note)"
       >
@@ -31,7 +31,7 @@
 </ng-container>
 
 <ng-template #noNotes>
-  <ng-container *ngIf="notesService.notes().length === 0">
+  <ng-container *ngIf="notes.length === 0">
     <p>You don't have any notes yet.</p>
   </ng-container>
 </ng-template>

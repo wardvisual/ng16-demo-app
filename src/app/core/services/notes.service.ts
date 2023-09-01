@@ -1,5 +1,9 @@
 import { Injectable, OnInit, signal } from '@angular/core';
-import { AuthService, SupabaseService } from 'astronautaking/services';
+import {
+  AuthService,
+  HttpService,
+  SupabaseService,
+} from 'astronautaking/services';
 
 import {
   CreateNote,
@@ -11,6 +15,7 @@ import { LoaderService } from './loader.service';
 import { DateService } from './date.service';
 import { ModalService, ToastService } from 'astronautaking/components';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { BehaviorSubject } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
@@ -22,14 +27,18 @@ export class NotesService {
   notes = signal<Note[]>([]);
   note: Note;
 
+  notes$ = new BehaviorSubject<Note[]>([]);
+  _notes = this.notes$.asObservable();
+
   constructor(
     private supabaseService: SupabaseService,
     private authService: AuthService,
     private dateService: DateService,
     private loaderService: LoaderService,
     private toastService: ToastService,
-    private modalService: ModalService
-  ) {}
+    private modalService: ModalService,
+    private httpService: HttpService
+  ) { }
 
   /**
    * Creates an update note form.
@@ -59,20 +68,14 @@ export class NotesService {
     });
   }
 
-  /**
-   * Creates a new note.
-   *
-   * @param {Event} event - The event that triggered the creation of the note.
-   * @param {FormGroup} note - The form group containing the note data.
-   * @return {Promise<void>} A promise that resolves when the note is created.
-   */
-  async createNewNote(event: Event, note: FormGroup): Promise<void> {
+
+  createNewNote(event: Event, note: FormGroup) {
     event.preventDefault();
 
     this.loaderService.setLoading('newNote', true);
 
-    const { id } = this.authService.user;
     const createdAt = this.dateService.getCurrentDateTime();
+    const { id } = this.authService.user;
 
     const noteData = {
       userId: id,
@@ -80,120 +83,77 @@ export class NotesService {
       ...note.value,
     };
 
-    const response: any = await this.supabaseService.supabase
-      .from('notes')
-      .insert([noteData])
-      .select('*')
-      .single();
+    this.httpService.post('/notes', noteData).subscribe((res: any) => {
+      this.toastService.openToast(res.isSuccess, res.message);
 
-    if (response.error) {
-      this.toastService.openToast(false, 'Adding note failed');
-      return;
-    }
+      if (!res.isSuccess) return;
 
-    this.notes.mutate((notes) => notes.push(response.data));
+      this.modalService.toggleModal('newNote', false);
+      this.loaderService.setLoading('newNote', false);
 
-    this.toastService.openToast(true, 'Note successfully created!');
-
-    this.modalService.toggleModal('newNote', false);
-    this.loaderService.setLoading('newNote', false);
-
-    this.newNoteForm.reset();
-    this.createNewNoteForm();
-  }
-
-  /**
-   * Retrieves all notes for the user.
-   *
-   * @return {Promise<void>} A Promise that resolves when the notes are retrieved.
-   */
-  async getAllNotes(): Promise<void> {
-    this.loaderService.setLoading('getNotes', true);
-
-    const userId = this.authService.user.id;
-
-    const response = await this.supabaseService.supabase
-      .from('notes')
-      .select()
-      .eq('userId', userId);
-
-    if (response.error) {
-      this.toastService.openToast(false, "Can't find notes");
-      return;
-    }
-
-    this.notes.mutate((notes) => {
-      notes.push(...response.data);
+      this.newNoteForm.reset();
+      this.createNewNoteForm();
     });
 
-    this.loaderService.setLoading('getNotes', false);
-
-    this.toastService.openToast(true, 'Notes successfully retrieved!');
+    this.httpService.get('/notes').subscribe((res: any) => {
+      if (!res.isSuccess) return;
+      this.notes$.next(res.data);
+    });
   }
 
-  /**
-   * Updates a note asynchronously.
-   *
-   * @param {Event} event - the event that triggered the update
-   * @param {FormGroup<UpdateNote>} note - the form group containing the updated note
-   * @return {Promise<void>} a promise that resolves when the note is successfully updated
-   */
-  async updateNote(event: Event, note: FormGroup<UpdateNote>): Promise<void> {
+
+  getNotes() {
+    this.loaderService.setLoading('getNotes', true);
+
+    this.httpService.get('/notes').subscribe((res: any) => {
+      this.toastService.openToast(res.isSuccess, res.message);
+
+      if (!res.isSuccess) return;
+
+      this.notes$.next(res.data);
+    });
+
+    return this._notes;
+  }
+
+
+  async updateNote(event: Event, id: string, note: FormGroup<UpdateNote>) {
     event.preventDefault();
 
-    const response = await this.supabaseService.supabase
-      .from('notes')
-      .update(note.value)
-      .eq('id', this.note.id)
-      .select();
+    this.httpService.patch(`/notes/${id}`, note.value).subscribe((res: any) => {
+      this.toastService.openToast(res.isSuccess, res.message);
 
-    if (response.error) {
-      this.toastService.openToast(false, "Can't update note");
-      return;
-    }
+      if (!res.isSuccess) return;
 
-    this.notes.update((notes) =>
-      notes.map((_note) => {
-        return _note.id === this.note.id ? { ..._note, ...note.value } : _note;
-      })
-    );
+      this.notes$.next(this.notes$.getValue().map((note: any) => {
+        if (note.id === id) return { ...res.data, ...note.value };
 
-    this.toastService.openToast(true, 'Note successfully updated!');
-    this.modalService.toggleModal(`${this.note.id}_updateNote`, false);
-    this.loaderService.setLoading('updateNote', false);
+        return note
+      }))
+
+      this.modalService.toggleModal(`${note.value.id}_updateNote`, false);
+      this.loaderService.setLoading('updateNote', false);
+    })
   }
 
-  /**
-   * Removes a note with the specified ID.
-   *
-   * @param {string} id - The ID of the note to be removed.
-   * @return {Promise<void>} - A promise that resolves when the note is successfully removed.
-   */
-  async removeNote(id: string): Promise<void> {
+  async removeNote(id: string) {
     this.loaderService.setLoading(`deleteNote`, true);
 
-    const response = await this.supabaseService.supabase
-      .from('notes')
-      .delete()
-      .eq('id', id);
+    this.httpService.delete(`/notes/${id}`).subscribe((res: any) => {
+      this.toastService.openToast(res.isSuccess, res.message);
 
-    if (response.error) {
-      this.toastService.openToast(false, "Can't delete note");
-      return;
-    }
+      if (!res.isSuccess) return;
 
-    this.notes.update((notes) => notes.filter((note) => note.id !== id));
+      const currentNotes = this.notes$.getValue();
 
-    this.toastService.openToast(true, 'Note successfully deleted!');
-    this.modalService.toggleModal(`${id}_removeNote`, false);
-    this.loaderService.setLoading(`_removeNote`, false);
+      this.notes$.next(currentNotes.filter((note: any) => note.id !== id));
+
+      this.modalService.toggleModal(`${id}_removeNote`, false);
+      this.loaderService.setLoading(`_removeNote`, false);
+    })
   }
 
-  /**
-   * Updates the disabled status based on the validation status.
-   *
-   * @param {boolean} status - The new validation status.
-   */
+
   onValidationStatusChange(status: boolean) {
     this.isButtonDisabled = !status;
   }

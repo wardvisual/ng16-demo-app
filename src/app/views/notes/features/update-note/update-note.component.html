@@ -9,7 +9,13 @@
   <div class="form">
     <form
       [formGroup]="notesService.updateNoteForm"
-      (ngSubmit)="notesService.updateNote($event, notesService.updateNoteForm)"
+      (ngSubmit)="
+        notesService.updateNote(
+          $event,
+          notesService.note.id,
+          notesService.updateNoteForm
+        )
+      "
     >
       <header>
         <img src="assets/images/form-art.svg" alt="astronautaking logo" />

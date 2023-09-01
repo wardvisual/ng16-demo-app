@@ -51,8 +51,8 @@ import { TruncatePipe } from 'astronautaking/pipes';
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule,
     HttpClientModule,
+    AppRoutingModule,
     ReactiveFormsModule,
 
     IconsModule,

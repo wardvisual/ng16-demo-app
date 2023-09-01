@@ -14,10 +14,10 @@ export class NotesComponent implements OnInit {
     protected modalService: ModalService,
     protected authService: AuthService,
     protected notesService: NotesService
-  ) {}
+  ) { }
 
   ngOnInit(): void {
-    this.notesService.getAllNotes();
+    this.notesService.getNotes();
     this.notesService.createNewNoteForm();
     this.notesService.createUpdateNoteForm();
   }

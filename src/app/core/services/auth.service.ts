@@ -1,16 +1,13 @@
 import { Injectable, signal } from '@angular/core';
 
-import { SignIn, SignUp } from 'astronautaking/types';
-import { LocalStorageService, SupabaseService } from 'astronautaking/services';
+import { APIResponse, SignIn, SignUp } from 'astronautaking/types';
+import { HttpService, LocalStorageService } from 'astronautaking/services';
 import { ToastService } from 'astronautaking/components';
 import { LoaderService } from './loader.service';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { BehaviorSubject } from 'rxjs';
 
-/**
- * This class utilizes the Supabase service but it does not use the built-in authentication for users of Supabase.
- * Instead, it implements basic custom authentication logic for demo purposes.
- */
 @Injectable({
   providedIn: 'root',
 })
@@ -19,118 +16,65 @@ export class AuthService {
   signInForm: FormGroup<SignIn>;
   isButtonDisabled: boolean;
 
-  isAuthenticated = signal<boolean>(false);
+  isAuthenticated$ = new BehaviorSubject<boolean>(false);
 
   constructor(
-    private supabaseService: SupabaseService,
     private localStorageService: LocalStorageService,
     private loaderService: LoaderService,
     private toastService: ToastService,
-    private router: Router
+    private router: Router,
+    private httpService: HttpService
   ) {
     this.createSignUpForm();
     this.createSignInForm();
+    this.isButtonDisabled = true;
 
-    this.isAuthenticated.update(() => {
-      if (!this.localStorageService.getItem('currentUser')) {
-        return false;
-      }
+    if (!this.localStorageService.getItem('currentUser')) {
+      this.isAuthenticated$.next(false);
+      return;
+    }
 
-      return true;
-    });
+    this.isAuthenticated$.next(true);
   }
 
   onValidationStatusChange(status: boolean) {
     this.isButtonDisabled = !status;
   }
 
-  /**
-   * Registers a new user.
-   *
-   * @param {Event} event - The event object.
-   * @return {Promise<void>} A Promise that resolves when the user is registered.
-   */
-  async register(event: Event): Promise<void> {
+  register(event: Event) {
     event.preventDefault();
 
     this.loaderService.setLoading('register', true);
 
     const user = this.signUpForm.value;
 
-    const userFromDb: any = await this.supabaseService.supabase
-      .from('users')
-      .select()
-      .or(
-        `username.eq.${user?.username},emailAddress.eq.${user?.username},username.eq.${user?.username},emailAddress.eq.${user?.emailAddress}`
-      )
-      .single();
+    this.httpService.post('/users/register', user).subscribe((res: any) => {
+      this.toastService.openToast(res.isSuccess, res.message);
 
-    if (userFromDb.data) {
-      let duplicatedField: string;
-
-      userFromDb.data.emailAddress === user.emailAddress
-        ? (duplicatedField = 'Email')
-        : (duplicatedField = 'Username');
-
-      this.toastService.openToast(
-        false,
-        `This ${duplicatedField} is already taken`
-      );
-    }
-
-    if (!userFromDb.data) {
-      await this.supabaseService.supabase.from('users').insert([user]);
-
-      this.toastService.openToast(true, 'You are now registered!');
-      this.router.navigateByUrl('/signin');
-    }
+      if (res.isSuccess) this.router.navigateByUrl('/signin');
+    });
 
     this.loaderService.setLoading('register', false);
   }
 
-  /**
-   * Logs in the user.
-   *
-   * @param {Event} event - The event that triggered the login.
-   * @return {Promise<void>} - A promise that resolves once the login is complete.
-   */
-  public async login(event: Event): Promise<void> {
+  public async login(event: Event) {
     event.preventDefault();
 
     this.loaderService.setLoading('login', true);
 
     const user = this.signInForm.value;
 
-    const userFromDb: any = await this.supabaseService.supabase
-      .from('users')
-      .select()
-      .or(
-        `username.eq.${user?.username},emailAddress.eq.${user?.username},username.eq.${user?.emailAddress},emailAddress.eq.${user?.emailAddress}`
-      )
-      .single();
+    this.httpService.post('/users/login', user).subscribe((res: any) => {
+      this.toastService.openToast(res.isSuccess, res.message);
 
-    if (!userFromDb.data) {
-      this.toastService.openToast(false, `Account doesn't exists`);
-      this.loaderService.setLoading('login', false);
-      return;
-    }
+      this.localStorageService.setItem('currentUser', res.data.user);
 
-    if (userFromDb.data?.password !== user?.password) {
-      this.toastService.openToast(false, `Invalid password`);
-      this.loaderService.setLoading('login', false);
-      return;
-    }
+      this.isAuthenticated$.next(true);
 
-    const { password, ...userWithoutPassword } = userFromDb.data;
+      if (res.isSuccess) this.router.navigateByUrl('/');
+    });
 
     this.loaderService.setLoading('login', false);
-
-    this.localStorageService.setItem('currentUser', userWithoutPassword);
-    this.isAuthenticated.update(() => true);
-
-    this.toastService.openToast(true, `You are now login!`);
-
-    this.router.navigateByUrl('/');
   }
 
   /**
@@ -138,27 +82,18 @@ export class AuthService {
    *
    * @return {object} The current user object with the `fullName` property added.
    */
-  get user() {
+  get user(): any {
     const user = this.localStorageService.getItem('currentUser');
     user.fullName = `${user.firstName} ${user.lastName}`;
 
     return user;
   }
 
-  /**
-   * Logs out the current user by removing the 'currentUser' item from the local storage
-   * and redirecting to the '/signin' page.
-   */
   public logout(): void {
     this.localStorageService.removeItem('currentUser');
     this.router.navigateByUrl('/signin');
   }
 
-  /**
-   * Creates a signup form.
-   *
-   * @return {void}
-   */
   createSignUpForm(): void {
     this.signUpForm = new FormGroup<SignUp>({
       firstName: new FormControl('', [
@@ -185,11 +120,6 @@ export class AuthService {
     });
   }
 
-  /**
-   * Creates the signin form.
-   *
-   * @returns {void} - No return value.
-   */
   createSignInForm(): void {
     this.signInForm = new FormGroup<SignIn>({
       username: new FormControl('', [
