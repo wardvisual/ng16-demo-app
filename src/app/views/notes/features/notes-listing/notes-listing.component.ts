@@ -1,7 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
+import { FormGroup } from '@angular/forms';
 import { ModalService } from 'astronautaking/components';
 import { NotesService } from 'astronautaking/services';
-import { Note } from 'astronautaking/types';
+import { Note, UpdateNote } from 'astronautaking/types';
+import { Observable, BehaviorSubject } from 'rxjs';
 
 @Component({
   selector: 'app-notes-listing',
@@ -9,32 +11,21 @@ import { Note } from 'astronautaking/types';
   styleUrls: ['./notes-listing.component.scss'],
 })
 export class NotestListingComponent implements OnInit {
-  constructor(
-    public notesService: NotesService,
-    public modalService: ModalService
-  ) {}
+  @Input() createUpdateNoteForm: () => void;
+  @Input() updateNoteForm: FormGroup<UpdateNote>;
+  @Input() notes: Note[];
+  @Input() note: Note;
 
-  notes: any[];
+  constructor(public modalService: ModalService) {}
 
-  ngOnInit(): void {
-    this.notesService.getNotes().subscribe((notes) => {
-      this.notes = notes;
-    });
-  }
+  ngOnInit(): void {}
 
-  /**
-   * Toggles the view of a note.
-   *
-   * @param {Note} note - The note to be viewed.
-   */
   toggleViewNote(note: Note) {
-    this.notesService.note = note;
+    this.note = note;
 
-    // Create update form
-    this.notesService.createUpdateNoteForm();
+    this.createUpdateNoteForm();
 
-    // Set default values for the updateNote form
-    this.notesService.updateNoteForm.setValue({
+    this.updateNoteForm.setValue({
       title: note.title,
       content: note.content,
     });
@@ -42,21 +33,11 @@ export class NotestListingComponent implements OnInit {
     this.modalService.toggleModal(`${note.id}_viewNote`, true);
   }
 
-  /**
-   * Toggle the update note form.
-   *
-   * @param {Id} id - The note to update.
-   */
   toggleUpdateNoteForm(id: string) {
     this.modalService.toggleModal(`${id}_viewNote`, false);
     this.modalService.toggleModal(`${id}_updateNote`, true);
   }
 
-  /**
-   * Toggles the remove note modal for a given ID.
-   *
-   * @param {string} id - The note to be removed.
-   */
   toggleRemoveNote(id: string) {
     this.modalService.toggleModal(`${id}_viewNote`, false);
     this.modalService.toggleModal(`${id}_removeNote`, true);

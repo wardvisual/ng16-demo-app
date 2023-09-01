@@ -77,11 +77,7 @@ export class AuthService {
     this.loaderService.setLoading('login', false);
   }
 
-  /**
-   * Retrieves the current user from the local storage and returns it.
-   *
-   * @return {object} The current user object with the `fullName` property added.
-   */
+
   get user(): any {
     const user = this.localStorageService.getItem('currentUser');
     user.fullName = `${user.firstName} ${user.lastName}`;

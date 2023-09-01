@@ -7,8 +7,8 @@
   <!-- Create new note form -->
   <div class="form">
     <form
-      [formGroup]="notesService.newNoteForm"
-      (ngSubmit)="notesService.createNewNote($event, notesService.newNoteForm)"
+      [formGroup]="newNoteForm"
+      (ngSubmit)="createNewNote($event, newNoteForm)"
     >
       <header>
         <img src="assets/images/form-art.svg" alt="astronautaking logo" />
@@ -18,10 +18,7 @@
         <div class="flex-items-center">
           <i-tabler name="calendar" class="opacity-50" />
           <p>
-            {{
-              notesService.newNoteForm.get("createdAt").value
-                | date : "dd/MM/yyyy"
-            }}
+            {{ newNoteForm.get("createdAt").value | date : "dd/MM/yyyy" }}
           </p>
         </div>
 
@@ -30,11 +27,9 @@
           name="title"
           label="Title"
           [required]="true"
-          [formGroup]="notesService.newNoteForm"
+          [formGroup]="newNoteForm"
           formControlName="title"
-          (validationStatusChange)="
-            notesService.onValidationStatusChange($event)
-          "
+          (validationStatusChange)="onValidationStatusChange($event)"
           ngDefaultControl
         ></app-input>
 
@@ -43,11 +38,9 @@
           name="content"
           label="Note"
           [required]="true"
-          [formGroup]="notesService.newNoteForm"
+          [formGroup]="newNoteForm"
           formControlName="content"
-          (validationStatusChange)="
-            notesService.onValidationStatusChange($event)
-          "
+          (validationStatusChange)="onValidationStatusChange($event)"
           ngDefaultControl
         ></app-input>
       </section>
@@ -58,9 +51,7 @@
           [name]="
             loaderService.getLoading(this) ? 'Creating...' : 'Create Note'
           "
-          [isDisabled]="
-            notesService.isButtonDisabled || loaderService.getLoading(this)
-          "
+          [isDisabled]="isButtonDisabled || loaderService.getLoading(this)"
         ></app-button>
       </footer>
     </form>

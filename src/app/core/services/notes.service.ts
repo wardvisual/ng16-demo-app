@@ -38,36 +38,7 @@ export class NotesService {
     private toastService: ToastService,
     private modalService: ModalService,
     private httpService: HttpService
-  ) { }
-
-  /**
-   * Creates an update note form.
-   *
-   * @return {void} - Does not return anything.
-   */
-  createUpdateNoteForm(): void {
-    this.updateNoteForm = new FormGroup<UpdateNote>({
-      title: new FormControl(''),
-      content: new FormControl(''),
-    });
-  }
-
-  /**
-   * Creates a new note form.
-   *
-   * @return {void} This function does not return a value.
-   */
-  createNewNoteForm(): void {
-    const currentDate = this.dateService.getCurrentDateTime();
-
-    this.newNoteForm = new FormGroup<CreateNote>({
-      content: new FormControl('', Validators.required),
-      title: new FormControl('', Validators.required),
-      createdAt: new FormControl(currentDate.toISOString()),
-      userId: new FormControl(this.authService.user.id),
-    });
-  }
-
+  ) {}
 
   createNewNote(event: Event, note: FormGroup) {
     event.preventDefault();
@@ -92,7 +63,6 @@ export class NotesService {
       this.loaderService.setLoading('newNote', false);
 
       this.newNoteForm.reset();
-      this.createNewNoteForm();
     });
 
     this.httpService.get('/notes').subscribe((res: any) => {
@@ -100,7 +70,6 @@ export class NotesService {
       this.notes$.next(res.data);
     });
   }
-
 
   getNotes() {
     this.loaderService.setLoading('getNotes', true);
@@ -116,7 +85,6 @@ export class NotesService {
     return this._notes;
   }
 
-
   async updateNote(event: Event, id: string, note: FormGroup<UpdateNote>) {
     event.preventDefault();
 
@@ -125,15 +93,17 @@ export class NotesService {
 
       if (!res.isSuccess) return;
 
-      this.notes$.next(this.notes$.getValue().map((note: any) => {
-        if (note.id === id) return { ...res.data, ...note.value };
+      this.notes$.next(
+        this.notes$.getValue().map((note: any) => {
+          if (note.id === id) return { ...res.data, ...note.value };
 
-        return note
-      }))
+          return note;
+        })
+      );
 
       this.modalService.toggleModal(`${note.value.id}_updateNote`, false);
       this.loaderService.setLoading('updateNote', false);
-    })
+    });
   }
 
   async removeNote(id: string) {
@@ -150,9 +120,8 @@ export class NotesService {
 
       this.modalService.toggleModal(`${id}_removeNote`, false);
       this.loaderService.setLoading(`_removeNote`, false);
-    })
+    });
   }
-
 
   onValidationStatusChange(status: boolean) {
     this.isButtonDisabled = !status;

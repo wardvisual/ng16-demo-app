@@ -10,9 +10,13 @@ import { Note, UpdateNote } from 'astronautaking/types';
   styleUrls: ['./update-note.component.scss'],
 })
 export class UpdateNoteComponent implements OnInit {
+  @Input() updateNote: (event: Event, note: FormGroup<UpdateNote>) => void;
+  @Input() onValidationStatusChange: (event: Event) => void;
+  @Input() isButtonDisabled: boolean;
+  @Input() note: Note;
+
   constructor(
     public modalService: ModalService,
-    public notesService: NotesService,
     public loaderService: LoaderService
   ) {}
 

@@ -1,16 +1,16 @@
 <!-- Modal - Remove Note Component Start -->
 <app-modal
-  *ngIf="notesService.note?.id"
+  *ngIf="note?.id"
   title="Remove Note"
-  [isOpen]="modalService.getModal(notesService.note.id + '_removeNote')"
-  [name]="notesService.note.id + '_removeNote'"
+  [isOpen]="modalService.getModal(note.id + '_removeNote')"
+  [name]="note.id + '_removeNote'"
 >
   <div class="delete">
     <div>
       <h6>Are you sure you want to delete this note?</h6>
       <br />
       <p>
-        {{ notesService.note.title }}
+        {{ note.title }}
       </p>
     </div>
 
@@ -19,7 +19,7 @@
     <app-button
       type="submit"
       variant="primary"
-      (buttonClick)="notesService.removeNote(notesService.note.id)"
+      (buttonClick)="removeNote(note.id)"
       [name]="loaderService.getLoading(this) ? 'Deleting...' : 'Delete Note'"
       [isDisabled]="loaderService.getLoading(this)"
     ></app-button>

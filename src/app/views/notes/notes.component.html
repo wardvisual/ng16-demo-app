@@ -34,10 +34,24 @@
     <!-- Header Component End -->
 
     <!-- Features Components Start -->
-    <app-notes-listing />
-    <app-create-note />
-    <app-update-note />
-    <app-remove-note />
+    <app-notes-listing
+      [createUpdateNoteForm]="createUpdateNoteForm"
+      [updateNoteForm]="updateNoteForm"
+      [getNotes]="getNotes"
+      [note]="note"
+      [notes]="notes$.getValue()"
+    />
+    <app-create-note
+      [newNoteForm]="newNoteForm"
+      [createNewNote]="createNewNote"
+      [onValidationStatusChange]="onValidationStatusChange"
+    />
+    <app-update-note
+      [updateNote]="updateNote"
+      [onValidationStatusChange]="onValidationStatusChange"
+      [note]="note"
+    />
+    <app-remove-note [removeNote]="removeNote" />
     <!-- Features Components End -->
   </section>
   <!-- Section Component End -->

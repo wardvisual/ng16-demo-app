@@ -10,8 +10,10 @@ import { LoaderService } from '../../../../core/services/loader.service';
   styleUrls: ['./remove-note.component.scss'],
 })
 export class RemoveNoteComponent implements OnInit {
+  @Input() removeNote: (id: string) => void;
+  @Input() note: Note;
+
   constructor(
-    public notesService: NotesService,
     public modalService: ModalService,
     public loaderService: LoaderService
   ) {}

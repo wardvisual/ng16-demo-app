@@ -1,21 +1,15 @@
 <!-- Modal - Update Note Component Start-->
 <app-modal
-  *ngIf="notesService.note?.id"
+  *ngIf="note?.id"
   title="Update Note"
-  [isOpen]="modalService.getModal(notesService.note.id) + '_updateNote'"
-  [name]="notesService.note.id + '_updateNote'"
+  [isOpen]="modalService.getModal(note.id) + '_updateNote'"
+  [name]="note.id + '_updateNote'"
 >
   <!-- Create update note form -->
   <div class="form">
     <form
-      [formGroup]="notesService.updateNoteForm"
-      (ngSubmit)="
-        notesService.updateNote(
-          $event,
-          notesService.note.id,
-          notesService.updateNoteForm
-        )
-      "
+      [formGroup]="updateNoteForm"
+      (ngSubmit)="updateNote($event, note.id, updateNoteForm)"
     >
       <header>
         <img src="assets/images/form-art.svg" alt="astronautaking logo" />
@@ -25,7 +19,7 @@
         <div class="flex-items-center">
           <i-tabler name="calendar" class="opacity-50" />
           <p>
-            <!-- {{ notesService.updateNoteForm.get("createdAt").value | date : "dd/MM/yyyy" }} -->
+            <!-- {{ updateNoteForm.get("createdAt").value | date : "dd/MM/yyyy" }} -->
           </p>
         </div>
 
@@ -34,11 +28,9 @@
           name="title"
           label="Title"
           [required]="true"
-          [formGroup]="notesService.updateNoteForm"
+          [formGroup]="updateNoteForm"
           formControlName="title"
-          (validationStatusChange)="
-            notesService.onValidationStatusChange($event)
-          "
+          (validationStatusChange)="onValidationStatusChange($event)"
           ngDefaultControl
         ></app-input>
 
@@ -47,11 +39,9 @@
           name="content"
           label="Note"
           [required]="true"
-          [formGroup]="notesService.updateNoteForm"
+          [formGroup]="updateNoteForm"
           formControlName="content"
-          (validationStatusChange)="
-            notesService.onValidationStatusChange($event)
-          "
+          (validationStatusChange)="onValidationStatusChange($event)"
           ngDefaultControl
         ></app-input>
       </section>
